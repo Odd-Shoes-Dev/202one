@@ -1,0 +1,10 @@
+.section { background: var(--black-soft); border-top: 1px solid var(--concrete-line); padding: 140px 32px; text-align: center; }
+.wrap { max-width: 1240px; margin: 0 auto; }
+.eyebrow { font-size: 12.5px; letter-spacing: 0.22em; color: var(--gold); font-weight: 600; margin-bottom: 18px; display: block; }
+.mission { font-family: var(--serif); font-size: clamp(30px, 5vw, 56px); font-weight: 600; color: var(--sand); line-height: 1.15; }
+.sent { color: var(--gold-bright); font-style: italic; font-weight: 500; }
+.wrap p { max-width: 620px; margin: 28px auto 0; font-size: 16px; color: var(--sand-dim); font-weight: 300; line-height: 1.8; }
+.pillars { margin-top: 64px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 32px; max-width: 900px; margin-left: auto; margin-right: auto; }
+@media (max-width: 760px) { .pillars { grid-template-columns: 1fr 1fr; } }
+.pillarWord { font-family: var(--serif); font-style: italic; font-size: 18px; color: var(--gold-bright); }
+.pillarDesc { font-size: 12.5px; color: var(--concrete); margin-top: 8px; letter-spacing: 0.03em; }

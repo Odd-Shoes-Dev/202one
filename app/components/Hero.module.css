@@ -1,0 +1,166 @@
+.hero {
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: relative;
+  padding: 140px 32px 80px;
+  background:
+    radial-gradient(ellipse 90% 60% at 50% 0%, rgba(184,134,62,0.10), transparent 60%),
+    linear-gradient(180deg, var(--black) 0%, #0A0A09 100%);
+  overflow: hidden;
+}
+
+[data-theme="light"] .hero {
+  background:
+    radial-gradient(ellipse 90% 60% at 50% 0%, rgba(168,124,50,0.10), transparent 60%),
+    linear-gradient(180deg, var(--black) 0%, #EDE7D8 100%);
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: repeating-linear-gradient(115deg, transparent 0px, transparent 40px, rgba(184,134,62,0.035) 40px, rgba(184,134,62,0.035) 41px, transparent 41px, transparent 80px);
+  pointer-events: none;
+}
+
+.grain {
+  position: absolute;
+  inset: 0;
+  opacity: 0.05;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+.inner {
+  max-width: 1240px;
+  margin: 0 auto;
+  width: 100%;
+  position: relative;
+  z-index: 2;
+}
+
+.eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font-size: 12.5px;
+  letter-spacing: 0.22em;
+  color: var(--sand-dim);
+  margin-bottom: 28px;
+  opacity: 0;
+  animation: fadeUp 0.8s ease forwards 0.1s;
+}
+.line { width: 40px; height: 1px; background: var(--gold); display: inline-block; }
+
+.h1 {
+  font-family: var(--serif);
+  font-weight: 600;
+  font-size: clamp(52px, 9vw, 128px);
+  line-height: 0.96;
+  letter-spacing: -0.01em;
+  color: var(--sand);
+  opacity: 0;
+  animation: fadeUp 0.9s ease forwards 0.25s;
+}
+.h1 em {
+  font-style: italic;
+  font-weight: 400;
+  background: linear-gradient(120deg, var(--gold-bright), var(--copper));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.sub {
+  max-width: 560px;
+  margin-top: 28px;
+  font-size: 18px;
+  line-height: 1.65;
+  color: var(--sand-dim);
+  font-weight: 300;
+  opacity: 0;
+  animation: fadeUp 0.9s ease forwards 0.4s;
+}
+
+.verbs {
+  margin-top: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 28px;
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 17px;
+  color: var(--gold-bright);
+  opacity: 0;
+  animation: fadeUp 0.9s ease forwards 0.5s;
+}
+.verbs span::after { content: '·'; margin-left: 28px; color: var(--concrete-line); }
+.verbs span:last-child::after { content: ''; }
+
+.ctas {
+  margin-top: 46px;
+  display: flex;
+  gap: 18px;
+  flex-wrap: wrap;
+  opacity: 0;
+  animation: fadeUp 0.9s ease forwards 0.6s;
+}
+
+.btnPrimary {
+  background: var(--gold-bright);
+  color: var(--black);
+  padding: 17px 34px;
+  font-size: 13.5px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  border: 1px solid var(--gold-bright);
+  cursor: pointer;
+  transition: all 0.25s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+.btnPrimary:hover { background: transparent; color: var(--gold-bright); gap: 16px; }
+
+.btnSecondary {
+  background: transparent;
+  color: var(--sand);
+  padding: 17px 34px;
+  font-size: 13.5px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  border: 1px solid var(--concrete);
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+.btnSecondary:hover { border-color: var(--sand-dim); background: rgba(232,220,196,0.04); }
+
+.footline {
+  position: absolute;
+  bottom: 36px;
+  left: 32px;
+  right: 32px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  color: var(--concrete);
+  max-width: 1240px;
+  margin: 0 auto;
+  z-index: 2;
+}
+.mission {
+  text-align: right;
+  color: var(--sand-dim);
+  opacity: 0;
+  animation: fadeUp 0.9s ease forwards 0.8s;
+}
+.loc { opacity: 0; animation: fadeUp 0.9s ease forwards 0.75s; }
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(18px); }
+  to { opacity: 1; transform: translateY(0); }
+}

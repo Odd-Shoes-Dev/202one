@@ -1,0 +1,102 @@
+.section { background: var(--black); }
+.sectionPad { padding: 120px 32px; }
+.wrap { max-width: 1240px; margin: 0 auto; }
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 64px;
+  align-items: center;
+}
+@media (max-width: 900px) { .grid { grid-template-columns: 1fr; gap: 48px; } }
+
+.visual {
+  aspect-ratio: 4/5;
+  background: linear-gradient(160deg, #1C1611 0%, #0D0D0C 55%, #14100B 100%);
+  border: 1px solid var(--concrete-line);
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+[data-theme="light"] .visual {
+  background: linear-gradient(160deg, #DDD6C4 0%, #EAE4D6 55%, #D6D0C0 100%);
+}
+.visual::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: repeating-linear-gradient(115deg, transparent 0px, transparent 30px, rgba(184,134,62,0.06) 30px, rgba(184,134,62,0.06) 31px, transparent 31px, transparent 60px);
+}
+.visualLabel {
+  font-family: var(--serif);
+  font-style: italic;
+  color: var(--concrete);
+  font-size: 15px;
+  letter-spacing: 0.05em;
+  z-index: 1;
+}
+
+.eyebrow {
+  font-size: 12.5px;
+  letter-spacing: 0.22em;
+  color: var(--gold);
+  font-weight: 600;
+  margin-bottom: 18px;
+  display: block;
+}
+.h2 {
+  font-family: var(--serif);
+  font-size: clamp(30px, 4vw, 44px);
+  font-weight: 600;
+  color: var(--sand);
+  line-height: 1.1;
+}
+.p {
+  margin-top: 18px;
+  font-size: 16px;
+  color: var(--sand-dim);
+  font-weight: 300;
+  line-height: 1.7;
+}
+
+.features {
+  list-style: none;
+  margin-top: 36px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px 24px;
+}
+.features li {
+  font-size: 14px;
+  color: var(--sand-dim);
+  padding-left: 20px;
+  position: relative;
+  border-bottom: 1px solid var(--concrete-line);
+  padding-bottom: 14px;
+}
+.features li::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 6px;
+  width: 6px; height: 6px;
+  background: var(--gold);
+  transform: rotate(45deg);
+}
+
+.btn {
+  display: inline-block;
+  margin-top: 36px;
+  background: transparent;
+  color: var(--sand);
+  padding: 17px 34px;
+  font-size: 13.5px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  border: 1px solid var(--concrete);
+  transition: all 0.25s ease;
+}
+.btn:hover { border-color: var(--sand-dim); background: rgba(232,220,196,0.04); }
+
+@media (max-width: 600px) { .sectionPad { padding: 80px 22px; } }

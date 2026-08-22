@@ -1,0 +1,115 @@
+.header {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  background: rgba(13, 13, 12, 0.85);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--concrete-line);
+  transition: background 0.3s ease, border-color 0.3s ease;
+}
+
+[data-theme="light"] .header {
+  background: rgba(242, 237, 226, 0.88);
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 32px;
+  max-width: 1240px;
+  margin: 0 auto;
+  gap: 16px;
+}
+
+.logo {
+  font-family: var(--serif);
+  font-size: 22px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--sand);
+  flex-shrink: 0;
+}
+.logo span { color: var(--gold-bright); }
+
+.navLinks {
+  display: flex;
+  gap: 36px;
+  list-style: none;
+  margin-left: auto;
+}
+.navLinks a {
+  font-size: 12.5px;
+  letter-spacing: 0.12em;
+  color: var(--sand-dim);
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+.navLinks a:hover { color: var(--gold-bright); }
+
+.navCta {
+  display: inline-block;
+  border: 1px solid var(--gold);
+  color: var(--gold-bright);
+  padding: 9px 20px;
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  font-weight: 600;
+  transition: all 0.25s ease;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.navCta:hover {
+  background: var(--gold);
+  color: var(--black);
+}
+
+.themeToggle {
+  background: none;
+  border: 1px solid var(--concrete-line);
+  color: var(--sand-dim);
+  width: 36px;
+  height: 36px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+.themeToggle:hover {
+  border-color: var(--gold-bright);
+  color: var(--gold-bright);
+}
+
+.mobileToggle {
+  display: none;
+  background: none;
+  border: none;
+  color: var(--sand);
+  font-size: 24px;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+@media (max-width: 880px) {
+  .navLinks { display: none; }
+  .mobileToggle { display: block; }
+
+  .navLinks.open {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 100%;
+    left: 0; right: 0;
+    background: rgba(13, 13, 12, 0.97);
+    padding: 20px 32px 28px;
+    gap: 18px;
+    border-bottom: 1px solid var(--concrete-line);
+  }
+
+  [data-theme="light"] .navLinks.open {
+    background: rgba(242, 237, 226, 0.97);
+  }
+}
