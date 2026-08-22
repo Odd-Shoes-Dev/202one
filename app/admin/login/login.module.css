@@ -1,0 +1,75 @@
+.main {
+  min-height: 100svh;
+  background: var(--black);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 32px;
+  background-image: repeating-linear-gradient(115deg, transparent 0px, transparent 40px, rgba(184,134,62,0.03) 40px, rgba(184,134,62,0.03) 41px, transparent 41px, transparent 80px);
+}
+
+.card {
+  width: 100%;
+  max-width: 380px;
+  border: 1px solid var(--concrete-line);
+  padding: 48px 40px;
+  background: var(--black-soft);
+}
+
+.logo {
+  font-family: var(--serif);
+  font-size: 26px;
+  font-weight: 600;
+  color: var(--sand);
+  margin-bottom: 6px;
+}
+.logo span { color: var(--gold-bright); }
+
+.label {
+  font-size: 11.5px;
+  letter-spacing: 0.16em;
+  color: var(--concrete);
+  margin-bottom: 36px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.input {
+  background: var(--black);
+  border: 1px solid var(--concrete-line);
+  color: var(--sand);
+  font-family: var(--sans);
+  font-size: 14px;
+  padding: 14px 16px;
+  outline: none;
+  transition: border-color 0.2s ease;
+  width: 100%;
+}
+.input:focus { border-color: var(--gold); }
+.input::placeholder { color: var(--concrete); }
+
+.error {
+  font-size: 13px;
+  color: var(--copper);
+  padding: 10px 14px;
+  border: 1px solid var(--copper);
+}
+
+.btn {
+  background: var(--gold-bright);
+  color: var(--black);
+  border: 1px solid var(--gold-bright);
+  padding: 14px;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  font-family: var(--sans);
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+.btn:hover:not(:disabled) { background: transparent; color: var(--gold-bright); }
+.btn:disabled { opacity: 0.4; cursor: not-allowed; }

@@ -1,0 +1,72 @@
+.editForm { }
+
+.editHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.tierLabel {
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  color: var(--gold);
+  font-weight: 600;
+}
+
+.fields {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px 20px;
+}
+@media (max-width: 600px) { .fields { grid-template-columns: 1fr; } }
+
+.field { display: flex; flex-direction: column; gap: 7px; }
+
+.label {
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  color: var(--gold);
+  font-weight: 600;
+}
+
+.input {
+  background: var(--black);
+  border: 1px solid var(--concrete-line);
+  color: var(--sand);
+  font-family: var(--sans);
+  font-size: 13.5px;
+  padding: 11px 13px;
+  outline: none;
+  transition: border-color 0.2s ease;
+  width: 100%;
+}
+.input:focus { border-color: var(--gold); }
+.input::placeholder { color: var(--concrete); }
+
+.btnSave {
+  background: var(--gold-bright);
+  border: 1px solid var(--gold-bright);
+  color: var(--black);
+  padding: 10px 20px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  font-family: var(--sans);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.btnSave:hover:not(:disabled) { background: transparent; color: var(--gold-bright); }
+.btnSave:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.btnCancel {
+  background: none;
+  border: 1px solid var(--concrete-line);
+  color: var(--sand-dim);
+  padding: 10px 20px;
+  font-size: 12px;
+  font-family: var(--sans);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.btnCancel:hover { border-color: var(--sand-dim); }
