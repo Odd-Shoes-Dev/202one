@@ -7,9 +7,10 @@ import styles from './BookingDrawer.module.css'
 interface Props {
   open: boolean
   onClose: () => void
+  initialTier?: string
 }
 
-export default function BookingDrawer({ open, onClose }: Props) {
+export default function BookingDrawer({ open, onClose, initialTier }: Props) {
   // Lock body scroll when drawer is open
   useEffect(() => {
     document.body.style.overflow = open ? 'hidden' : ''
@@ -43,7 +44,7 @@ export default function BookingDrawer({ open, onClose }: Props) {
           <button className={styles.closeBtn} onClick={onClose} aria-label="Close">✕</button>
         </div>
         <div className={styles.drawerBody}>
-          <BookingForm onSuccess={onClose} />
+          <BookingForm onSuccess={onClose} initialTier={initialTier} />
         </div>
       </aside>
     </>

@@ -7,6 +7,7 @@ import BookingDrawer from './BookingDrawer'
 export default function Nav() {
   const [menuOpen, setMenuOpen] = useState(false)
   const [drawerOpen, setDrawerOpen] = useState(false)
+  const [initialTier, setInitialTier] = useState<string | undefined>(undefined)
   const [theme, setTheme] = useState<'dark' | 'light'>('dark')
 
   useEffect(() => {
@@ -27,7 +28,11 @@ export default function Nav() {
   }
 
   useEffect(() => {
-    function onOpen() { setDrawerOpen(true) }
+    function onOpen(e: Event) {
+      const tier = (e as CustomEvent).detail?.tier
+      setInitialTier(tier)
+      setDrawerOpen(true)
+    }
     window.addEventListener('open-booking', onOpen)
     return () => window.removeEventListener('open-booking', onOpen)
   }, [])
@@ -38,13 +43,13 @@ export default function Nav() {
     <>
     <header className={styles.header}>
       <nav className={styles.nav}>
-        <a href="#" className={styles.logo}>202<span>One</span></a>
+        <a href="/" className={styles.logo}>202<span>One</span></a>
         <ul className={`${styles.navLinks} ${menuOpen ? styles.open : ''}`}>
-          <li><a href="#studio" onClick={closeMenu}>Studio</a></li>
-          <li><a href="#sessions" onClick={closeMenu}>Live Sessions</a></li>
-          <li><a href="#pricing" onClick={closeMenu}>Pricing</a></li>
-          <li><a href="#community" onClick={closeMenu}>Community</a></li>
-          <li><a href="#about" onClick={closeMenu}>About</a></li>
+          <li><a href="/#studio" onClick={closeMenu}>Studio</a></li>
+          <li><a href="/#sessions" onClick={closeMenu}>Live Sessions</a></li>
+          <li><a href="/#pricing" onClick={closeMenu}>Pricing</a></li>
+          <li><a href="/#community" onClick={closeMenu}>Community</a></li>
+          <li><a href="/#about" onClick={closeMenu}>About</a></li>
         </ul>
         <button className={styles.themeToggle} onClick={toggleTheme} aria-label="Toggle theme">
           {theme === 'dark' ? '☽' : '☀'}
@@ -59,7 +64,7 @@ export default function Nav() {
         </button>
       </nav>
     </header>
-    <BookingDrawer open={drawerOpen} onClose={() => setDrawerOpen(false)} />
+    <BookingDrawer open={drawerOpen} onClose={() => setDrawerOpen(false)} initialTier={initialTier} />
     </>
   )
 }

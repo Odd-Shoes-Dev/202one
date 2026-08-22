@@ -36,9 +36,19 @@ const empty: FormState = {
   duration: 2,
 }
 
-export default function BookingForm({ onSuccess }: { onSuccess?: () => void } = {}) {
-  const [step, setStep] = useState<Step>('type')
-  const [form, setForm] = useState<FormState>(empty)
+export default function BookingForm({ onSuccess, initialTier }: { onSuccess?: () => void; initialTier?: string } = {}) {
+  const [step, setStep] = useState<Step>(initialTier ? 'details' : 'type')
+  const [form, setForm] = useState<FormState>({ ...empty, type: initialTier ?? '' })
+
+  useEffect(() => {
+    if (initialTier) {
+      setForm({ ...empty, type: initialTier })
+      setStep('details')
+    } else {
+      setForm(empty)
+      setStep('type')
+    }
+  }, [initialTier])
   const [total, setTotal] = useState<{ subtotal: number; discount: number; total: number; promoApplied: string | null } | null>(null)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)

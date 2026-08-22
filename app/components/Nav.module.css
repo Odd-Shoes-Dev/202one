@@ -49,12 +49,15 @@
 
 .navCta {
   display: inline-block;
+  background: transparent;
   border: 1px solid var(--gold);
   color: var(--gold-bright);
   padding: 9px 20px;
   font-size: 12px;
   letter-spacing: 0.1em;
   font-weight: 600;
+  font-family: var(--sans);
+  cursor: pointer;
   transition: all 0.25s ease;
   white-space: nowrap;
   flex-shrink: 0;

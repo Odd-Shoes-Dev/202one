@@ -1,10 +1,16 @@
+'use client'
+
 import styles from './Pricing.module.css'
 
 const plans = [
-  { name: 'SPACE', tagline: 'Come use the room.', desc: 'For rehearsals, songwriting, practice and self-directed sessions. Bring your own instruments or use ours.', amount: 'UGX 35,000', per: '/ hour', note: 'Tentative — subject to confirmation', cta: 'Book Space', featured: false },
-  { name: 'SESSION', tagline: 'Come make the record.', desc: 'Studio time plus engineer and producer assistance. For recording vocals, instruments and full songs.', amount: 'UGX 60,000', per: '/ hour', note: 'Tentative — subject to confirmation', cta: 'Book a Session', featured: true },
-  { name: 'PRODUCTION', tagline: 'Come finish the work.', desc: 'Full recording, editing, arrangement, vocal tuning and mixing. For complete, release-ready tracks.', amount: 'UGX 100,000', per: '/ hour', note: 'From — custom quote for full projects', cta: 'Talk to Us', featured: false },
+  { tier: 'space',      name: 'SPACE',      tagline: 'Come use the room.',      desc: 'For rehearsals, songwriting, practice and self-directed sessions. Bring your own instruments or use ours.',                             amount: 'UGX 35,000',  per: '/ hour', note: 'Tentative — subject to confirmation',   cta: 'Book Space',      featured: false },
+  { tier: 'session',    name: 'SESSION',    tagline: 'Come make the record.',   desc: 'Studio time plus engineer and producer assistance. For recording vocals, instruments and full songs.',                                   amount: 'UGX 60,000',  per: '/ hour', note: 'Tentative — subject to confirmation',   cta: 'Book a Session',  featured: true  },
+  { tier: 'production', name: 'PRODUCTION', tagline: 'Come finish the work.',   desc: 'Full recording, editing, arrangement, vocal tuning and mixing. For complete, release-ready tracks.',                                   amount: 'UGX 100,000', per: '/ hour', note: 'From — custom quote for full projects', cta: 'Talk to Us',      featured: false },
 ]
+
+function openBooking(tier: string) {
+  window.dispatchEvent(new CustomEvent('open-booking', { detail: { tier } }))
+}
 
 export default function Pricing() {
   return (
@@ -17,7 +23,12 @@ export default function Pricing() {
         </div>
         <div className={styles.grid}>
           {plans.map(p => (
-            <div key={p.name} className={`${styles.card} ${p.featured ? styles.featured : ''}`}>
+            <div
+              key={p.name}
+              className={`${styles.card} ${p.featured ? styles.featured : ''}`}
+              onClick={() => openBooking(p.tier)}
+              style={{ cursor: 'pointer' }}
+            >
               <div className={styles.name}>{p.name}</div>
               <div className={styles.tagline}>{p.tagline}</div>
               <p className={styles.desc}>{p.desc}</p>
