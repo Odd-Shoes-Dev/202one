@@ -1,3 +1,5 @@
+'use client'
+
 import styles from './Hero.module.css'
 
 export default function Hero() {
@@ -15,7 +17,7 @@ export default function Hero() {
           <span>Rehearse</span><span>Record</span><span>Produce</span><span>Perform</span>
         </div>
         <div className={styles.ctas}>
-          <a href="#book" className={styles.btnPrimary}>Book the Studio →</a>
+          <button className={styles.btnPrimary} onClick={() => window.dispatchEvent(new CustomEvent('open-booking'))}>Book the Studio →</button>
           <a href="#studio" className={styles.btnSecondary}>Explore the Space</a>
         </div>
       </div>

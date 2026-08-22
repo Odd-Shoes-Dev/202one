@@ -2,9 +2,11 @@
 
 import { useState, useEffect } from 'react'
 import styles from './Nav.module.css'
+import BookingDrawer from './BookingDrawer'
 
 export default function Nav() {
   const [menuOpen, setMenuOpen] = useState(false)
+  const [drawerOpen, setDrawerOpen] = useState(false)
   const [theme, setTheme] = useState<'dark' | 'light'>('dark')
 
   useEffect(() => {
@@ -24,9 +26,16 @@ export default function Nav() {
     }
   }
 
+  useEffect(() => {
+    function onOpen() { setDrawerOpen(true) }
+    window.addEventListener('open-booking', onOpen)
+    return () => window.removeEventListener('open-booking', onOpen)
+  }, [])
+
   function closeMenu() { setMenuOpen(false) }
 
   return (
+    <>
     <header className={styles.header}>
       <nav className={styles.nav}>
         <a href="#" className={styles.logo}>202<span>One</span></a>
@@ -40,7 +49,7 @@ export default function Nav() {
         <button className={styles.themeToggle} onClick={toggleTheme} aria-label="Toggle theme">
           {theme === 'dark' ? '☽' : '☀'}
         </button>
-        <a href="#book" className={styles.navCta}>Book the Space</a>
+        <button className={styles.navCta} onClick={() => setDrawerOpen(true)}>Book the Space</button>
         <button
           className={styles.mobileToggle}
           aria-label="Menu"
@@ -50,5 +59,7 @@ export default function Nav() {
         </button>
       </nav>
     </header>
+    <BookingDrawer open={drawerOpen} onClose={() => setDrawerOpen(false)} />
+    </>
   )
 }
