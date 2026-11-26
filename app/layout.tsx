@@ -17,13 +17,13 @@ const spaceGrotesk = Space_Grotesk({
 })
 
 export const metadata: Metadata = {
-  title: '202One — Create Here',
-  description: 'A professional creative space for artists, musicians, producers and storytellers in Kampala, Uganda.',
+  title: '202One Studio | Mbarara Creative Studio',
+  description: 'A creative studio for film, photography, graphics and sound in Mbarara, Uganda.',
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" data-scroll-behavior="smooth" className={`${fraunces.variable} ${spaceGrotesk.variable}`} suppressHydrationWarning>
       <head>
         <script
           dangerouslySetInnerHTML={{
@@ -31,7 +31,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           }}
         />
       </head>
-      <body className={`${fraunces.variable} ${spaceGrotesk.variable}`}>
+      <body>
         {children}
       </body>
     </html>

@@ -2,7 +2,7 @@
 
 ## What is 202One?
 
-202One is a professional creative studio space based in Kampala, Uganda, built for faith-driven creatives — musicians, producers, artists, storytellers, worship teams, filmmakers, and builders. The mission: **Raised here. Sent everywhere.**
+202One is a professional creative studio space based in Mbarara, Uganda, built for faith-driven creatives — musicians, producers, artists, storytellers, worship teams, filmmakers, and builders. The mission: **Raised here. Sent everywhere.**
 
 The studio offers four core services:
 - **Rehearse** — dedicated space for bands and worship teams

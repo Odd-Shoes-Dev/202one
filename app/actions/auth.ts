@@ -6,7 +6,7 @@ import { sessionOptions, type SessionData } from '@/lib/session'
 import { redirect } from 'next/navigation'
 
 export async function login(password: string) {
-  if (password !== process.env.ADMIN_PASSWORD) {
+  if (!process.env.ADMIN_PASSWORD || password !== process.env.ADMIN_PASSWORD) {
     return { success: false, error: 'Incorrect password.' }
   }
   const session = await getIronSession<SessionData>(await cookies(), sessionOptions)

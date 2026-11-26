@@ -125,6 +125,12 @@ export interface EventInput {
 
 // ── Studio Sessions ───────────────────────────────────────────────────────────
 
+export interface StudioFeedback {
+  id: string
+  message: string
+  created_at: string
+}
+
 export interface StudioSession {
   id: number
   title: string

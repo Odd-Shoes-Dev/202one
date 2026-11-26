@@ -255,3 +255,16 @@
   font-weight: 600;
   margin-bottom: 16px;
 }
+
+.feedbackList {
+  list-style: none;
+  display: grid;
+  gap: .75rem;
+}
+.feedbackList li {
+  border: 1px solid var(--concrete-line);
+  background: var(--black-soft);
+  padding: 1rem;
+}
+.feedbackList time { color: var(--sand-dim); font-size: .875rem; }
+.feedbackList p { margin-top: .4rem; overflow-wrap: anywhere; white-space: pre-wrap; }

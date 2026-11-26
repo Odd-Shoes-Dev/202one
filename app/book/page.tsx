@@ -1,25 +1,26 @@
-import BookingForm from './BookingForm'
-import styles from './page.module.css'
-import Nav from '@/app/components/Nav'
+import Link from 'next/link'
+import type { Metadata } from 'next'
+import SitePage from '@/app/components/SitePage'
+import StudioCheckout from '@/app/components/StudioCheckout'
+import styles from '@/app/components/Site.module.css'
+import { flutterwaveConfig } from '@/lib/flutterwave'
+import { readQuote } from '@/lib/studio-quote'
 
-export const metadata = { title: '202One — Book the Studio' }
+export const metadata: Metadata = { title: 'Book the Studio | 202One Studio' }
 
-export default function BookPage() {
+export default async function BookPage({
+  searchParams,
+}: { searchParams: Promise<{ tier?: string | string[]; hours?: string | string[]; extras?: string | string[] }> }) {
+  const initial = readQuote(await searchParams)
+
   return (
-    <>
-      <Nav />
-      <main className={styles.main}>
-        <div className={styles.header}>
-          <div className={styles.headerInner}>
-            <span className={styles.eyebrow}><span className={styles.line} /> BOOK THE SPACE</span>
-            <h1 className={styles.h1}>What are you<br /><em>making?</em></h1>
-            <p className={styles.sub}>Fill in the details below. We'll confirm your slot and send payment instructions for the UGX 10,000 deposit.</p>
-          </div>
-        </div>
-        <div className={styles.body}>
-          <BookingForm />
-        </div>
-      </main>
-    </>
+    <SitePage
+      title="Book the Studio"
+      image="booking"
+      description="Build your package, choose a time in Mbarara, and try the online checkout."
+      actions={<Link href="#booking-flow" className={styles.primaryButton}>Start booking</Link>}
+    >
+      <StudioCheckout key={JSON.stringify(initial)} initial={initial} flutterwave={Boolean(flutterwaveConfig())} />
+    </SitePage>
   )
 }

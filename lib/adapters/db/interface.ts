@@ -3,10 +3,14 @@ import type {
   PricingTier, PricingUpdate,
   Promotion, PromotionInput,
   Event, EventInput,
-  StudioSession, StudioSessionInput,
+  StudioSession, StudioSessionInput, StudioFeedback,
 } from '@/lib/types'
 
 export interface DbAdapter {
+  // Visitor Feedback
+  saveFeedback(id: string, message: string): Promise<void>
+  listFeedback(): Promise<StudioFeedback[]>
+
   // Bookings
   createBooking(data: BookingInput): Promise<Booking>
   getBooking(id: string): Promise<Booking | null>

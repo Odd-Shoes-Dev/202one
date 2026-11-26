@@ -9,7 +9,7 @@ export default function Hero() {
       <div className={styles.inner}>
         <div className={styles.eyebrow}>
           <span className={styles.line} />
-          202ONE STUDIO · KAMPALA
+          202ONE STUDIO · MBARARA
         </div>
         <h1 className={styles.h1}>Create<br /><em>here.</em></h1>
         <p className={styles.sub}>A professional creative space for artists, musicians, producers and storytellers — built inside a community that exists to create and send.</p>
@@ -22,7 +22,7 @@ export default function Hero() {
         </div>
       </div>
       <div className={styles.footline}>
-        <span className={styles.loc}>202ONE — KAMPALA, UGANDA</span>
+        <span className={styles.loc}>202ONE — MBARARA, UGANDA</span>
         <span className={styles.mission}>RAISED HERE. SENT EVERYWHERE.</span>
       </div>
     </section>

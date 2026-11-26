@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useId } from 'react'
 import { createBooking, calculateBookingTotal } from '@/app/actions/booking'
 import styles from './BookingForm.module.css'
 
@@ -37,6 +37,7 @@ const empty: FormState = {
 }
 
 export default function BookingForm({ onSuccess, initialTier }: { onSuccess?: () => void; initialTier?: string } = {}) {
+  const fieldId = useId()
   const [step, setStep] = useState<Step>(initialTier ? 'details' : 'type')
   const [form, setForm] = useState<FormState>({ ...empty, type: initialTier ?? '' })
 
@@ -118,7 +119,7 @@ export default function BookingForm({ onSuccess, initialTier }: { onSuccess?: ()
         <h2 className={styles.doneTitle}>Booking received.</h2>
         <p className={styles.doneSub}>We've sent a confirmation to <strong>{form.email}</strong>. The team will be in touch with payment instructions for the UGX 10,000 deposit to secure your slot.</p>
         <p className={styles.doneRef}>Reference: <span>{bookingId}</span></p>
-        <a href="/" className={styles.doneBack}>← Back to 202One</a>
+        <a href="/" className={styles.doneBack}>Back to 202One</a>
       </div>
     )
   }
@@ -161,30 +162,30 @@ export default function BookingForm({ onSuccess, initialTier }: { onSuccess?: ()
           <h2 className={styles.stepTitle}>Tell us about yourself.</h2>
           <div className={styles.fields}>
             <div className={styles.field}>
-              <label className={styles.label}>Name / Artist name <span>*</span></label>
-              <input className={styles.input} value={form.artist_name} onChange={e => set('artist_name', e.target.value)} placeholder="e.g. Naomi K." />
+              <label className={styles.label} htmlFor={`${fieldId}-artist-name`}>Name / Artist name <span>*</span></label>
+              <input id={`${fieldId}-artist-name`} className={styles.input} value={form.artist_name} onChange={e => set('artist_name', e.target.value)} placeholder="e.g. Naomi K." />
             </div>
             <div className={styles.field}>
-              <label className={styles.label}>Email <span>*</span></label>
-              <input className={styles.input} type="email" value={form.email} onChange={e => set('email', e.target.value)} placeholder="your@email.com" />
+              <label className={styles.label} htmlFor={`${fieldId}-email`}>Email <span>*</span></label>
+              <input id={`${fieldId}-email`} className={styles.input} type="email" value={form.email} onChange={e => set('email', e.target.value)} placeholder="your@email.com" />
             </div>
             <div className={styles.field}>
-              <label className={styles.label}>Phone <span className={styles.optional}>(optional)</span></label>
-              <input className={styles.input} type="tel" value={form.phone} onChange={e => set('phone', e.target.value)} placeholder="+256 7xx xxx xxx" />
+              <label className={styles.label} htmlFor={`${fieldId}-phone`}>Phone <span className={styles.optional}>(optional)</span></label>
+              <input id={`${fieldId}-phone`} className={styles.input} type="tel" value={form.phone} onChange={e => set('phone', e.target.value)} placeholder="+256 7xx xxx xxx" />
             </div>
             <div className={styles.field}>
-              <label className={styles.label}>Notes <span className={styles.optional}>(optional)</span></label>
-              <textarea className={`${styles.input} ${styles.textarea}`} value={form.notes} onChange={e => set('notes', e.target.value)} placeholder="What are you working on? Any instruments, band size, or special requirements?" rows={4} />
+              <label className={styles.label} htmlFor={`${fieldId}-notes`}>Notes <span className={styles.optional}>(optional)</span></label>
+              <textarea id={`${fieldId}-notes`} className={`${styles.input} ${styles.textarea}`} value={form.notes} onChange={e => set('notes', e.target.value)} placeholder="What are you working on? Any instruments, band size, or special requirements?" rows={4} />
             </div>
           </div>
           <div className={styles.nav}>
-            <button className={styles.btnBack} onClick={() => setStep('type')}>← Back</button>
+            <button className={styles.btnBack} onClick={() => setStep('type')}>Back</button>
             <button
               className={styles.btnNext}
               disabled={!form.artist_name || !form.email}
               onClick={() => setStep('datetime')}
             >
-              Continue →
+              Continue
             </button>
           </div>
         </div>
@@ -197,17 +198,17 @@ export default function BookingForm({ onSuccess, initialTier }: { onSuccess?: ()
           <div className={styles.fields}>
             <div className={styles.fieldRow}>
               <div className={styles.field}>
-                <label className={styles.label}>Date <span>*</span></label>
-                <input className={styles.input} type="date" value={form.date} min={new Date().toISOString().split('T')[0]} onChange={e => set('date', e.target.value)} />
+                <label className={styles.label} htmlFor={`${fieldId}-date`}>Date <span>*</span></label>
+                <input id={`${fieldId}-date`} className={styles.input} type="date" value={form.date} min={new Date().toISOString().split('T')[0]} onChange={e => set('date', e.target.value)} />
               </div>
               <div className={styles.field}>
-                <label className={styles.label}>Start time <span>*</span></label>
-                <input className={styles.input} type="time" value={form.start_time} onChange={e => set('start_time', e.target.value)} />
+                <label className={styles.label} htmlFor={`${fieldId}-start-time`}>Start time <span>*</span></label>
+                <input id={`${fieldId}-start-time`} className={styles.input} type="time" value={form.start_time} onChange={e => set('start_time', e.target.value)} />
               </div>
             </div>
             <div className={styles.field}>
-              <label className={styles.label}>Duration</label>
-              <div className={styles.durationGrid}>
+              <p className={styles.label} id={`${fieldId}-duration`}>Duration</p>
+              <div className={styles.durationGrid} role="group" aria-labelledby={`${fieldId}-duration`}>
                 {DURATIONS.map(d => (
                   <button
                     key={d}
@@ -243,13 +244,13 @@ export default function BookingForm({ onSuccess, initialTier }: { onSuccess?: ()
             )}
           </div>
           <div className={styles.nav}>
-            <button className={styles.btnBack} onClick={() => setStep('details')}>← Back</button>
+            <button className={styles.btnBack} onClick={() => setStep('details')}>Back</button>
             <button
               className={styles.btnNext}
               disabled={!form.date || !form.start_time}
               onClick={() => setStep('review')}
             >
-              Review booking →
+              Review booking
             </button>
           </div>
         </div>
@@ -294,9 +295,9 @@ export default function BookingForm({ onSuccess, initialTier }: { onSuccess?: ()
           {error && <div className={styles.error}>{error}</div>}
 
           <div className={styles.nav}>
-            <button className={styles.btnBack} onClick={() => setStep('datetime')}>← Back</button>
+            <button className={styles.btnBack} onClick={() => setStep('datetime')}>Back</button>
             <button className={styles.btnSubmit} onClick={submit} disabled={loading}>
-              {loading ? 'Submitting...' : 'Confirm booking →'}
+              {loading ? 'Submitting...' : 'Confirm booking'}
             </button>
           </div>
         </div>

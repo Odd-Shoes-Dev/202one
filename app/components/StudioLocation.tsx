@@ -1,0 +1,38 @@
+import styles from './StudioLocation.module.css'
+
+const latitude = -0.596442
+const longitude = 30.636703
+const googleMapsLink = 'https://maps.app.goo.gl/y41ptNb9xk4CcweG7'
+const mapParams = new URLSearchParams({
+  q: `${latitude},${longitude}`,
+  z: '17',
+  output: 'embed',
+})
+
+export default function StudioLocation({ compact = false }: { compact?: boolean }) {
+  return (
+    <section id="location" className={compact ? `${styles.location} ${styles.compact}` : styles.location} aria-labelledby="location-title">
+      <div className={styles.details}>
+        <h2 id="location-title">{compact ? 'See what you can make in Mbarara' : 'Find us in Mbarara'}</h2>
+        <p>{compact ? 'Visit 202One for a private room, a recording session, or a team to help finish your project.' : '202One Studio is based in Mbarara, Uganda. Use the map pin to plan your visit.'}</p>
+        {!compact && <p className={styles.coordinates}>{latitude}, {longitude}</p>}
+        <a
+          className={styles.directions}
+          href={googleMapsLink}
+          target="_blank"
+          rel="noreferrer"
+        >
+          Open in Google Maps
+        </a>
+      </div>
+      <iframe
+        className={styles.map}
+        src={`https://www.google.com/maps?${mapParams}`}
+        title="Google Maps pin for 202One Studio in Mbarara, Uganda"
+        loading="lazy"
+        referrerPolicy="strict-origin-when-cross-origin"
+        allowFullScreen
+      />
+    </section>
+  )
+}

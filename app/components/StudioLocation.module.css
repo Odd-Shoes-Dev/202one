@@ -1,0 +1,63 @@
+.location {
+  display: grid;
+  grid-template-columns: minmax(0, .8fr) minmax(0, 1.4fr);
+  align-items: stretch;
+  padding: clamp(2.75rem, 6vw, 5.5rem) var(--site-gutter);
+  background: var(--site-paper);
+  scroll-margin-top: 1rem;
+}
+
+.details {
+  display: grid;
+  align-content: center;
+  justify-items: start;
+  gap: .9rem;
+  padding: clamp(1.5rem, 4vw, 4rem);
+  background: var(--site-blue);
+  color: var(--site-white);
+}
+
+.details h2 {
+  font: 700 clamp(2.25rem, 4.4vw, 4.5rem)/1.02 var(--serif);
+  letter-spacing: -.045em;
+  text-wrap: balance;
+}
+
+.details p { max-width: 31rem; }
+.coordinates { font-variant-numeric: tabular-nums; }
+
+.directions {
+  display: inline-flex;
+  align-items: center;
+  min-height: 3rem;
+  padding: .65rem 1rem;
+  margin-top: .15rem;
+  background: var(--site-white);
+  color: var(--site-blue);
+  font-weight: 700;
+}
+
+.directions:hover { background: #e5ebff; }
+
+.map {
+  display: block;
+  border: 0;
+  width: 100%;
+  height: 100%;
+  min-height: clamp(22rem, 33vw, 34rem);
+  background: #e5e9e0;
+}
+
+.compact {
+  grid-template-columns: minmax(0, 1fr) minmax(15rem, 38%);
+  padding-block: clamp(1.25rem, 2.75vw, 2.5rem);
+}
+.compact .details { gap: .55rem; padding: clamp(1rem, 2.5vw, 2rem); }
+.compact .details h2 { font-size: clamp(1.85rem, 3vw, 3rem); }
+.compact .map { min-height: 13rem; }
+
+@media (max-width: 48rem) {
+  .location { grid-template-columns: 1fr; }
+  .map { min-height: 20rem; }
+  .compact .map { min-height: 12.5rem; }
+}

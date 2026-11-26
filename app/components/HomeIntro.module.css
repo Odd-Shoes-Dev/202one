@@ -1,0 +1,66 @@
+.intro {
+  display: grid;
+  grid-template-columns: minmax(0, .8fr) minmax(0, 1.3fr);
+  gap: clamp(1.75rem, 4vw, 5rem);
+  padding: clamp(2.75rem, 6vw, 5.5rem) var(--site-gutter);
+  background: var(--site-blue);
+  color: var(--site-white);
+}
+
+.copy {
+  display: grid;
+  align-content: center;
+  justify-items: start;
+  gap: 1rem;
+  padding-inline-start: clamp(0rem, 2vw, 2.5rem);
+}
+
+.copy h2 {
+  font: 700 clamp(2.5rem, 5.5vw, 5.7rem)/.99 var(--serif);
+  letter-spacing: -.041em;
+  text-wrap: balance;
+}
+
+.copy h2 span { color: #ffc7a9; }
+
+.copy p {
+  color: #eef1ff;
+  max-width: 30rem;
+  font-size: clamp(1rem, 1.5vw, 1.2rem);
+  line-height: 1.5;
+}
+
+.link {
+  min-height: 3rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: .7rem 1rem;
+  border: 1px solid var(--site-white);
+  font-weight: 700;
+}
+
+.link:hover { background: var(--site-white); color: var(--site-blue); }
+
+.collage {
+  display: grid;
+  grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
+  grid-template-rows: repeat(2, minmax(0, 1fr));
+  min-height: clamp(20rem, 29vw, 33rem);
+  gap: .4rem;
+  padding: .4rem;
+  background: var(--site-black);
+}
+
+.collage > div { position: relative; overflow: hidden; }
+.collage img { object-fit: cover; }
+.performance { grid-row: span 2; }
+.performance img { object-position: 65% center; }
+.film img { object-position: right center; }
+.graphics img { object-position: 58% center; }
+
+@media (max-width: 48rem) {
+  .intro { grid-template-columns: 1fr; }
+  .copy { padding-inline-start: 0; }
+  .collage { min-height: clamp(14rem, 56vw, 22rem); }
+}

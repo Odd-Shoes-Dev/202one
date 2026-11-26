@@ -1,39 +1,41 @@
+import Link from 'next/link'
+import { categories } from '@/lib/portfolio'
 import styles from './Footer.module.css'
 
 export default function Footer() {
   return (
     <footer className={styles.footer}>
-      <div className={styles.wrap}>
-        <div className={styles.grid}>
-          <div>
-            <div className={styles.logo}>202<span>One</span></div>
-            <div className={styles.mission}>RAISED HERE. SENT EVERYWHERE.</div>
+      <div className={styles.inner}>
+        <div className={styles.top}>
+          <div className={styles.identity}>
+            <Link href="/" className={styles.logo} aria-label="202One Studio home">202<span>One</span></Link>
+            <p>Raised here. Sent everywhere.</p>
+            <p>Mbarara, Uganda</p>
           </div>
-          <div className={styles.cols}>
-            <div className={styles.col}>
-              <h4>STUDIO</h4>
-              <a href="#studio">Rehearse</a>
-              <a href="#studio">Record</a>
-              <a href="#sessions">Live Sessions</a>
-              <a href="#studio">Produce</a>
+          <nav className={styles.links} aria-label="Sections and studio links">
+            <div>
+              <h2>Sections</h2>
+              {Object.entries(categories).map(([slug, category]) => (
+                <Link key={slug} href={`/work/${slug}`}>{category.title}</Link>
+              ))}
             </div>
-            <div className={styles.col}>
-              <h4>ABOUT</h4>
-              <a href="#pricing">Pricing</a>
-              <a href="#community">Community</a>
-              <a href="#about">Our Mission</a>
+            <div>
+              <h2>Studio</h2>
+              <Link href="/studio">The Space</Link>
+              <Link href="/live-sessions">Live Sessions</Link>
+              <Link href="/pricing">Pricing</Link>
+              <Link href="/book">Book the Studio</Link>
             </div>
-            <div className={styles.col}>
-              <h4>VISIT</h4>
-              <p>Kampala, Uganda</p>
-              <a href="#book">Book the Space</a>
+            <div>
+              <h2>202One</h2>
+              <Link href="/about">About</Link>
+              <Link href="/community">Community</Link>
+              <Link href="/contact">Contact</Link>
+              <Link href="/contact#location">Find the studio</Link>
             </div>
-          </div>
+          </nav>
         </div>
-        <div className={styles.bottom}>
-          <span>© 2026 202One Studio</span>
-          <span>Reserve with mobile money. Pay the rest your way.</span>
-        </div>
+        <p className={styles.copyright}>© 202One Studio</p>
       </div>
     </footer>
   )

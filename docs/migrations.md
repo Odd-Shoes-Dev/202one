@@ -54,6 +54,8 @@ The runner will:
 | `004_create_promotions.sql` | Promotions and discounts |
 | `005_create_events.sql` | Community events |
 | `006_create_sessions.sql` | 202One Sessions (live recordings) |
+| `007_create_feedback.sql` | Visitor submissions shown under Admin → Feedback |
+| `008_create_studio_checkout_payments.sql` | Checkout holds, itemized quotes, and verified Flutterwave test payments |
 
 ---
 

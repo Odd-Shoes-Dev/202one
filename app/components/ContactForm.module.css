@@ -1,0 +1,35 @@
+.form {
+  display: grid;
+  gap: .85rem;
+  align-content: start;
+  min-width: 0;
+  padding: clamp(1rem, 3vw, 2rem);
+  background: var(--site-paper);
+  border-top: 3px solid var(--site-blue);
+}
+
+.form h3 { font-size: 1.45rem; line-height: 1.2; }
+.form p { color: var(--site-muted); }
+.form label { display: grid; gap: .3rem; font-weight: 700; }
+.form select, .form textarea {
+  width: 100%;
+  min-width: 0;
+  padding: .65rem;
+  color: var(--site-black);
+  background: var(--site-white);
+  border: 1px solid #929aae;
+  font: inherit;
+}
+
+.form textarea { resize: vertical; }
+.form button {
+  justify-self: start;
+  padding: .7rem .95rem;
+  min-height: 2.75rem;
+  border: 1px solid var(--site-orange);
+  background: var(--site-orange);
+  color: var(--site-black);
+  font: 700 1rem var(--sans);
+  cursor: pointer;
+}
+.form button:hover { background: #ffa47b; }

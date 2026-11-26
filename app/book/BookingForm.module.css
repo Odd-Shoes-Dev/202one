@@ -1,5 +1,6 @@
 .wrap {
   max-width: 720px;
+  margin-inline: auto;
 }
 
 /* ── Progress ── */
@@ -23,7 +24,7 @@
   white-space: nowrap;
 }
 .progressStep:last-child { border-right: none; }
-.progressStep.active { color: var(--sand); background: rgba(184,134,62,0.06); }
+.progressStep.active { color: var(--sand); background: color-mix(in srgb, var(--gold) 6%, transparent); }
 .progressStep.done { color: var(--gold-bright); }
 
 .progressDot {
@@ -94,13 +95,13 @@
   transform-origin: left;
   transition: transform 0.3s ease;
 }
-.tierCard:hover { background: #1C1C19; }
+.tierCard:hover { background: var(--booking-hover, #1C1C19); }
 .tierCard:hover::before { transform: scaleX(1); }
-.tierCard.selected { background: #1C1C19; }
+.tierCard.selected { background: var(--booking-hover, #1C1C19); }
 .tierCard.selected::before { transform: scaleX(1); }
 
 [data-theme="light"] .tierCard:hover,
-[data-theme="light"] .tierCard.selected { background: #DDD8CC; }
+[data-theme="light"] .tierCard.selected { background: var(--booking-hover, #DDD8CC); }
 
 .tierLabel {
   font-family: var(--serif);
@@ -131,7 +132,7 @@
 .field { display: flex; flex-direction: column; gap: 8px; }
 
 .label {
-  font-size: 11.5px;
+  font-size: .875rem;
   letter-spacing: 0.12em;
   color: var(--gold);
   font-weight: 600;
@@ -175,7 +176,7 @@
   transition: all 0.2s ease;
 }
 .durationBtn:hover { border-color: var(--gold); color: var(--sand); }
-.durationBtn.selected { border-color: var(--gold-bright); background: rgba(184,134,62,0.1); color: var(--gold-bright); }
+.durationBtn.selected { border-color: var(--gold-bright); background: color-mix(in srgb, var(--gold) 10%, transparent); color: var(--gold-bright); }
 
 /* ── Total preview ── */
 .totalPreview {

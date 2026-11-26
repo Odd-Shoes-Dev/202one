@@ -1,82 +1,18 @@
-.main {
-  min-height: 100svh;
-  background: var(--black);
-  padding-top: 80px;
-}
-
-.header {
-  background:
-    radial-gradient(ellipse 80% 60% at 50% 0%, rgba(184,134,62,0.10), transparent 60%),
-    var(--black);
-  border-bottom: 1px solid var(--concrete-line);
-  padding: 80px 32px 64px;
-  position: relative;
-  overflow: hidden;
-}
-.header::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background-image: repeating-linear-gradient(115deg, transparent 0px, transparent 40px, rgba(184,134,62,0.03) 40px, rgba(184,134,62,0.03) 41px, transparent 41px, transparent 80px);
-  pointer-events: none;
-}
-
-.headerInner {
-  max-width: 1240px;
-  margin: 0 auto;
-  position: relative;
-  z-index: 1;
-}
-
-.eyebrow {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  font-size: 12.5px;
-  letter-spacing: 0.22em;
-  color: var(--sand-dim);
-  margin-bottom: 24px;
-}
-.line {
-  width: 40px;
-  height: 1px;
-  background: var(--gold);
-  display: inline-block;
-}
-
-.h1 {
-  font-family: var(--serif);
-  font-size: clamp(40px, 6vw, 80px);
-  font-weight: 600;
-  line-height: 0.98;
-  color: var(--sand);
-  letter-spacing: -0.01em;
-}
-.h1 em {
-  font-style: italic;
-  font-weight: 400;
-  background: linear-gradient(120deg, var(--gold-bright), var(--copper));
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-}
-
-.sub {
-  margin-top: 22px;
-  font-size: 16px;
-  color: var(--sand-dim);
-  font-weight: 300;
-  line-height: 1.65;
-  max-width: 520px;
-}
-
 .body {
-  max-width: 1240px;
-  margin: 0 auto;
-  padding: 64px 32px 100px;
+  --booking-hover: #e9edfc;
+  --black: #fff;
+  --black-soft: #f5f6fa;
+  --sand: #0c0d13;
+  --sand-dim: #4b5166;
+  --gold: #193eb5;
+  --gold-bright: #193eb5;
+  --copper: #9d3610;
+  --concrete: #544f59;
+  --concrete-line: #d8dce7;
+  width: min(100% - 2rem, 56rem);
+  margin-inline: auto;
+  padding-block: clamp(2.5rem, 7vw, 5rem);
 }
 
-@media (max-width: 600px) {
-  .header { padding: 60px 22px 48px; }
-  .body { padding: 48px 22px 80px; }
-}
+.pricingLink { text-align: center; padding-top: 1.4rem; }
+.pricingLink a { color: #193eb5; text-decoration: underline; text-underline-offset: .25em; font-weight: 600; }
