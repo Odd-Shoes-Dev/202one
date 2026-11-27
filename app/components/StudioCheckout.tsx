@@ -3,6 +3,7 @@
 import Link from 'next/link'
 import { useRef, useState, useSyncExternalStore, type FormEvent } from 'react'
 import { openStudioCheckout } from '@/app/book/payment-action'
+import type { PesapalEnvironment } from '@/lib/pesapal'
 import { addons, bookingHref, demoDeposit, durationOptions, plans, quoteLines, ugx, type QuoteOptions, type StudioAddon, type StudioPlan } from '@/lib/studio-quote'
 import { availableSlot, readReservations, reservationSnapshot, reserveDemoBooking, studioTime, studioToday, subscribeToReservations, type DemoReceipt, type DemoSlot } from '@/lib/demo-reservations'
 import styles from './StudioCheckout.module.css'
@@ -13,8 +14,8 @@ const steps = ['Build package', 'Choose time', 'Checkout']
 const emptySnapshot = () => '[]'
 
 export default function StudioCheckout({
-  initial, pricing = false, flutterwave = false,
-}: { initial: QuoteOptions; pricing?: boolean; flutterwave?: boolean }) {
+  initial, pricing = false, paymentMode, demo = false,
+}: { initial: QuoteOptions; pricing?: boolean; paymentMode?: PesapalEnvironment; demo?: boolean }) {
   const [quote, setQuote] = useState(initial)
   const [step, setStep] = useState(0)
   const [date, setDate] = useState('')
@@ -29,7 +30,8 @@ export default function StudioCheckout({
   const attempt = useRef<{ id: string; details: string } | null>(null)
   const heading = useRef<HTMLDivElement>(null)
   const snapshot = useSyncExternalStore(subscribeToReservations, reservationSnapshot, emptySnapshot)
-  const reservations = flutterwave ? [] : readReservations(snapshot)
+  const checkoutAvailable = Boolean(paymentMode || demo)
+  const reservations = demo ? readReservations(snapshot) : []
   const lines = quoteLines(quote)
   const total = lines.reduce((sum, line) => sum + line.amount, 0)
   const amount = deposit ? Math.min(demoDeposit, total) : total
@@ -66,14 +68,14 @@ export default function StudioCheckout({
 
   async function checkout(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
-    if (checkoutLock.current || !total) return
+    if (checkoutLock.current || !total || !checkoutAvailable) return
     checkoutLock.current = true
     setPaying(true)
     setError('')
     setPaymentStatusHref('')
 
     try {
-      if (flutterwave) {
+      if (paymentMode) {
         const form = new FormData(event.currentTarget)
         const name = String(form.get('customer') ?? '').trim()
         const email = String(form.get('email') ?? '').trim()
@@ -110,8 +112,8 @@ export default function StudioCheckout({
       setReceipt(booking)
       heading.current?.focus()
     } catch {
-      setError(flutterwave
-        ? 'The test checkout could not be opened. Please try again.'
+      setError(paymentMode
+        ? 'Pesapal checkout could not be opened. Please try again.'
         : 'The demo booking could not be saved. Check that this browser allows site storage and try again.')
     } finally {
       checkoutLock.current = false
@@ -122,7 +124,9 @@ export default function StudioCheckout({
   return (
     <section id="booking-flow" className={styles.checkout} aria-labelledby="checkout-heading">
       <header ref={heading} tabIndex={-1} className={styles.heading}>
-        <p className={styles.notice}>{flutterwave ? 'Flutterwave test mode · Sample rates' : 'Booking demo · Sample rates and simulated payments'}</p>
+        {paymentMode === 'sandbox' && <p className={styles.notice}>Pesapal sandbox · Sample rates</p>}
+        {demo && <p className={styles.notice}>Booking demo · Sample rates and simulated payments</p>}
+        {!pricing && !checkoutAvailable && <p className={styles.notice}>Online checkout is temporarily unavailable.</p>}
         <h2 id="checkout-heading">{receipt ? 'Demo booking confirmed' : pricing ? 'Build your price' : steps[step]}</h2>
         {!receipt && !pricing && (
           <ol className={styles.steps} aria-label="Booking progress">
@@ -195,7 +199,7 @@ export default function StudioCheckout({
             {step === 1 && (
               <form onSubmit={chooseTime} className={styles.form}>
                 <h3>Reserve your booking window</h3>
-                <p>Mbarara time (EAT). {flutterwave ? 'We check availability and hold your time when you open checkout.' : 'Availability in this demo reflects reservations made in this browser.'}</p>
+                <p>Mbarara time (EAT). {paymentMode && 'We check availability and hold your time when you open checkout.'}{demo && 'Availability in this demo reflects reservations made in this browser.'}</p>
                 <div className={styles.formGrid}>
                   <label><span>Date</span><input type="date" required min={studioToday()} defaultValue={date} onInput={(event) => { setDate(event.currentTarget.value); setStart(''); setError('') }} /></label>
                   <label>
@@ -221,16 +225,28 @@ export default function StudioCheckout({
               </form>
             )}
 
-            {step === 2 && (
+            {step === 2 && !checkoutAvailable && (
+              <div className={styles.form}>
+                <h3>Online checkout is temporarily unavailable</h3>
+                <p>Contact the studio to book your selected package and time.</p>
+                <div className={styles.buttons}>
+                  <button type="button" className={styles.secondary} onClick={() => changeStep(1)}>Back</button>
+                  <Link href="/contact" className={styles.primary}>Contact the studio</Link>
+                </div>
+              </div>
+            )}
+
+            {step === 2 && checkoutAvailable && (
               <form className={styles.form} onSubmit={checkout}>
                 <h3>Review and pay</h3>
                 <p>{date} · {studioTime(slot.start)}–{studioTime(slot.start + slot.hours)} EAT</p>
                 <div className={styles.formGrid}>
-                  <label><span>Customer name</span><input name="customer" required maxLength={100} placeholder="Demo customer" /></label>
-                  <label><span>Email</span><input name="email" type="email" required maxLength={200} placeholder="demo@example.com" /></label>
+                  <label><span>Customer name</span><input name="customer" autoComplete="name" required maxLength={100} placeholder={paymentMode === 'live' ? 'Your name' : 'Demo customer'} /></label>
+                  <label><span>Email</span><input name="email" type="email" autoComplete="email" required maxLength={200} placeholder={paymentMode === 'live' ? 'you@example.com' : 'demo@example.com'} /></label>
                 </div>
-                <p>{flutterwave ? 'Use sample details. Choose Mobile Money or card on Flutterwave’s test checkout.' : 'Use sample details. The payment and confirmation are simulated.'}</p>
-                {!flutterwave && <label>
+                <p>{paymentMode === 'live' ? 'Choose an available payment method on Pesapal.' : paymentMode === 'sandbox'
+                  ? 'Use sample details to try Pesapal’s test checkout.' : 'Use sample details. The payment and confirmation are simulated.'}</p>
+                {!paymentMode && <label>
                   <span>Payment method</span>
                   <select value={method} onChange={(event) => setMethod(event.target.value)}>
                     {methods.map((item) => <option key={item}>{item}</option>)}
@@ -248,8 +264,8 @@ export default function StudioCheckout({
                 <div className={styles.buttons}>
                   <button type="button" className={styles.secondary} disabled={paying} onClick={() => changeStep(1)}>Back</button>
                   <button type="submit" className={styles.primary} disabled={paying || !chosenTimeAvailable}>
-                    {flutterwave
-                      ? paying ? 'Opening Flutterwave…' : `Continue to Flutterwave · ${ugx(amount)}`
+                    {paymentMode
+                      ? paying ? 'Opening Pesapal…' : `Continue to Pesapal · ${ugx(amount)}`
                       : paying ? 'Saving demo booking…' : `Simulate payment · ${ugx(amount)}`}
                   </button>
                 </div>
@@ -263,7 +279,7 @@ export default function StudioCheckout({
             {quote.tier === 'services' && <p>{quote.hours} {quote.hours === 1 ? 'hour' : 'hours'} reserved for scheduling</p>}
             <dl aria-live="polite">
               {lines.map(({ title, amount }) => <div key={title}><dt>{title}</dt><dd>{ugx(amount)}</dd></div>)}
-              <div className={styles.total}><dt>{flutterwave ? 'Package total' : 'Demo total'}</dt><dd>{ugx(total)}</dd></div>
+              <div className={styles.total}><dt>{demo ? 'Demo total' : 'Package total'}</dt><dd>{ugx(total)}</dd></div>
               {step === 2 && deposit && <div><dt>Balance after deposit</dt><dd>{ugx(total - amount)}</dd></div>}
             </dl>
             {total === 0 && <p>Choose at least one service to continue.</p>}

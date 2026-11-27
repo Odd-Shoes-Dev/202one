@@ -1,16 +1,16 @@
 'use server'
 
-import { flutterwaveConfig } from '@/lib/flutterwave'
+import { pesapalConfig } from '@/lib/pesapal'
 import { startStudioPayment } from '@/lib/studio-payments'
 
 export async function openStudioCheckout(input: Parameters<typeof startStudioPayment>[1]): ReturnType<typeof startStudioPayment> {
-  const config = flutterwaveConfig()
-  if (!config) return { error: 'Flutterwave test checkout is unavailable.' }
+  const config = pesapalConfig()
+  if (!config) return { error: 'Pesapal checkout is unavailable.' }
 
   try {
     return await startStudioPayment(config, input)
   } catch {
-    console.error('Could not start the studio test checkout')
-    return { error: 'We could not open the test checkout. Please try again.' }
+    console.error('Could not start the Pesapal studio checkout')
+    return { error: 'We could not open checkout. Please try again.' }
   }
 }

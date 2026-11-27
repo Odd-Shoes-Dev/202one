@@ -1,5 +1,5 @@
 import { mockPayment } from './mock'
 import type { PaymentAdapter } from './interface'
 
-// Swap this import when a real provider (Flutterwave, DPO Pay, etc.) is ready.
+// The manual booking request flow uses the mock. Studio checkout is handled in lib/studio-payments.ts.
 export const payment: PaymentAdapter = mockPayment

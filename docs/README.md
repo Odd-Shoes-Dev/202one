@@ -6,3 +6,4 @@
 | [architecture.md](./architecture.md) | Folder structure, booking as aggregate root, adapter pattern, backend separation strategy |
 | [admin.md](./admin.md) | Admin section plan — booking management, content control, pricing and promotions |
 | [migrations.md](./migrations.md) | How to run migrations, add new ones, and track what has applied per environment |
+| [pesapal.md](./pesapal.md) | Pesapal checkout, notifications, and merchant setup |
