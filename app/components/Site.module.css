@@ -102,6 +102,8 @@
 .heroLocation span { color: var(--site-orange); padding-inline: .2rem; }
 
 .hero h1 {
+  justify-self: center;
+  text-align: center;
   font-family: var(--serif);
   max-width: 16ch;
   font-size: clamp(2.75rem, 7.4vw, 6rem);
