@@ -12,12 +12,7 @@ const scenes = [
 export default function HomeIntro() {
   return (
     <section id="studio" className={styles.intro} aria-labelledby="home-studio">
-      <div className={styles.heading}>
-        <h2 id="home-studio">Make it seen. <span>Make it heard.</span></h2>
-        <Link href="/studio" className={styles.link}>
-          Explore the studio <ArrowRight aria-hidden="true" />
-        </Link>
-      </div>
+      <h2 id="home-studio" className={styles.title}>Make it seen. <span>Make it heard.</span></h2>
       <figure>
         <ul className={styles.gallery}>
           {scenes.map(({ title, image, href, alt }) => (
@@ -32,7 +27,12 @@ export default function HomeIntro() {
             </li>
           ))}
         </ul>
-        <figcaption className={styles.imageCredit}>Illustrative imagery</figcaption>
+        <figcaption className={styles.galleryFooter}>
+          <span>Illustrative imagery</span>
+          <Link href="/studio" className={styles.link}>
+            Explore the studio <ArrowRight aria-hidden="true" />
+          </Link>
+        </figcaption>
       </figure>
     </section>
   )

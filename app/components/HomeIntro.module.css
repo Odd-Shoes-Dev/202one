@@ -1,24 +1,17 @@
 .intro {
-  padding: clamp(2.25rem, 5vw, 4.75rem) var(--site-gutter);
+  padding: clamp(1.25rem, 2.35vw, 2.45rem) var(--site-gutter) clamp(2.25rem, 5vw, 4rem);
   background: var(--site-black);
   color: var(--site-white);
 }
 
-.heading {
-  display: flex;
-  align-items: end;
-  justify-content: space-between;
-  gap: 1rem 2rem;
-  margin-bottom: clamp(1.35rem, 3vw, 2.25rem);
-}
-
-.heading h2 {
-  font: 700 clamp(2.4rem, 5.2vw, 5.4rem)/.98 var(--serif);
-  letter-spacing: -.048em;
+.title {
+  margin-bottom: clamp(.65rem, 1.4vw, 1.4rem);
+  font: 700 clamp(1.65rem, 4.5vw, 4.65rem)/1.02 var(--serif);
+  letter-spacing: -.045em;
   text-wrap: balance;
 }
 
-.heading h2 span { color: #ffc7a9; }
+.title span { color: #ffc7a9; }
 
 .link {
   display: inline-flex;
@@ -65,7 +58,7 @@
   position: absolute;
   z-index: -1;
   inset: 0;
-  background: linear-gradient(0deg, #080910f6, #08091094 22%, transparent 66%);
+  background: linear-gradient(0deg, #080910a6, transparent 45%);
 }
 
 .caption {
@@ -74,23 +67,39 @@
   align-items: center;
   gap: .6em;
   width: 100%;
-  padding: clamp(.9rem, 2.35vw, 2rem);
-  font: 700 clamp(1.3rem, 2.45vw, 2.5rem)/1.04 var(--serif);
+  margin: clamp(.55rem, 1.3vw, 1rem);
+  padding: clamp(.65rem, 1.3vw, 1.15rem);
+  border: 1px solid #ffffff45;
+  background: #0a1020e6;
+  font: 700 clamp(1.3rem, 2.3vw, 2.35rem)/1.04 var(--serif);
   letter-spacing: -.035em;
+}
+
+@supports (backdrop-filter: blur(1px)) {
+  .caption {
+    background: #0a1020a8;
+    backdrop-filter: blur(14px) saturate(1.1);
+  }
 }
 
 .caption svg { flex: none; inline-size: .85em; block-size: .85em; }
 .card:hover .caption, .card:focus-visible .caption { color: #ffb087; }
 
-.imageCredit {
+.galleryFooter {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: .5rem 1rem;
+  margin-top: .8rem;
+}
+
+.galleryFooter > span {
   color: #b9bfd0;
   font-size: .8125rem;
-  margin-top: .65rem;
-  text-align: right;
 }
 
 @media (max-width: 50rem) {
-  .heading { align-items: start; flex-direction: column; }
   .gallery { grid-template-columns: minmax(0, 1fr); }
   .card {
     min-height: 0;

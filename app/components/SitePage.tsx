@@ -1,6 +1,4 @@
-import { ArrowDown } from 'lucide-react'
 import Image from 'next/image'
-import Link from 'next/link'
 import type { ReactNode } from 'react'
 import Nav from './Nav'
 import Footer from './Footer'
@@ -47,11 +45,6 @@ export default function SitePage({
             <p className={styles.heroDescription}>{description}</p>
             {actions && <div className={styles.actions}>{actions}</div>}
           </div>
-          {home && (
-            <Link href="#studio" className={styles.heroScroll} aria-label="See inside the studio">
-              <ArrowDown aria-hidden="true" />
-            </Link>
-          )}
         </section>
         {children}
       </main>
