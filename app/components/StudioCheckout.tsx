@@ -14,8 +14,8 @@ const steps = ['Build package', 'Choose time', 'Checkout']
 const emptySnapshot = () => '[]'
 
 export default function StudioCheckout({
-  initial, pricing = false, paymentMode,
-}: { initial: QuoteOptions; pricing?: boolean; paymentMode?: PesapalEnvironment }) {
+  initial, pricing = false, paymentMode, demo = false,
+}: { initial: QuoteOptions; pricing?: boolean; paymentMode?: PesapalEnvironment; demo?: boolean }) {
   const [quote, setQuote] = useState(initial)
   const [step, setStep] = useState(0)
   const [date, setDate] = useState('')
@@ -30,7 +30,8 @@ export default function StudioCheckout({
   const attempt = useRef<{ id: string; details: string } | null>(null)
   const heading = useRef<HTMLDivElement>(null)
   const snapshot = useSyncExternalStore(subscribeToReservations, reservationSnapshot, emptySnapshot)
-  const reservations = paymentMode ? [] : readReservations(snapshot)
+  const checkoutAvailable = Boolean(paymentMode || demo)
+  const reservations = demo ? readReservations(snapshot) : []
   const lines = quoteLines(quote)
   const total = lines.reduce((sum, line) => sum + line.amount, 0)
   const amount = deposit ? Math.min(demoDeposit, total) : total
@@ -67,7 +68,7 @@ export default function StudioCheckout({
 
   async function checkout(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
-    if (checkoutLock.current || !total) return
+    if (checkoutLock.current || !total || !checkoutAvailable) return
     checkoutLock.current = true
     setPaying(true)
     setError('')
@@ -123,7 +124,9 @@ export default function StudioCheckout({
   return (
     <section id="booking-flow" className={styles.checkout} aria-labelledby="checkout-heading">
       <header ref={heading} tabIndex={-1} className={styles.heading}>
-        {paymentMode !== 'live' && <p className={styles.notice}>{paymentMode === 'sandbox' ? 'Pesapal sandbox · Sample rates' : 'Booking demo · Sample rates and simulated payments'}</p>}
+        {paymentMode === 'sandbox' && <p className={styles.notice}>Pesapal sandbox · Sample rates</p>}
+        {demo && <p className={styles.notice}>Booking demo · Sample rates and simulated payments</p>}
+        {!pricing && !checkoutAvailable && <p className={styles.notice}>Online checkout is temporarily unavailable.</p>}
         <h2 id="checkout-heading">{receipt ? 'Demo booking confirmed' : pricing ? 'Build your price' : steps[step]}</h2>
         {!receipt && !pricing && (
           <ol className={styles.steps} aria-label="Booking progress">
@@ -196,7 +199,7 @@ export default function StudioCheckout({
             {step === 1 && (
               <form onSubmit={chooseTime} className={styles.form}>
                 <h3>Reserve your booking window</h3>
-                <p>Mbarara time (EAT). {paymentMode ? 'We check availability and hold your time when you open checkout.' : 'Availability in this demo reflects reservations made in this browser.'}</p>
+                <p>Mbarara time (EAT). {paymentMode && 'We check availability and hold your time when you open checkout.'}{demo && 'Availability in this demo reflects reservations made in this browser.'}</p>
                 <div className={styles.formGrid}>
                   <label><span>Date</span><input type="date" required min={studioToday()} defaultValue={date} onInput={(event) => { setDate(event.currentTarget.value); setStart(''); setError('') }} /></label>
                   <label>
@@ -222,7 +225,18 @@ export default function StudioCheckout({
               </form>
             )}
 
-            {step === 2 && (
+            {step === 2 && !checkoutAvailable && (
+              <div className={styles.form}>
+                <h3>Online checkout is temporarily unavailable</h3>
+                <p>Contact the studio to book your selected package and time.</p>
+                <div className={styles.buttons}>
+                  <button type="button" className={styles.secondary} onClick={() => changeStep(1)}>Back</button>
+                  <Link href="/contact" className={styles.primary}>Contact the studio</Link>
+                </div>
+              </div>
+            )}
+
+            {step === 2 && checkoutAvailable && (
               <form className={styles.form} onSubmit={checkout}>
                 <h3>Review and pay</h3>
                 <p>{date} · {studioTime(slot.start)}–{studioTime(slot.start + slot.hours)} EAT</p>
@@ -265,7 +279,7 @@ export default function StudioCheckout({
             {quote.tier === 'services' && <p>{quote.hours} {quote.hours === 1 ? 'hour' : 'hours'} reserved for scheduling</p>}
             <dl aria-live="polite">
               {lines.map(({ title, amount }) => <div key={title}><dt>{title}</dt><dd>{ugx(amount)}</dd></div>)}
-              <div className={styles.total}><dt>{paymentMode ? 'Package total' : 'Demo total'}</dt><dd>{ugx(total)}</dd></div>
+              <div className={styles.total}><dt>{demo ? 'Demo total' : 'Package total'}</dt><dd>{ugx(total)}</dd></div>
               {step === 2 && deposit && <div><dt>Balance after deposit</dt><dd>{ugx(total - amount)}</dd></div>}
             </dl>
             {total === 0 && <p>Choose at least one service to continue.</p>}

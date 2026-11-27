@@ -13,6 +13,7 @@ export default async function BookPage({
 }: { searchParams: Promise<{ tier?: string | string[]; hours?: string | string[]; extras?: string | string[] }> }) {
   const initial = readQuote(await searchParams)
   const paymentMode = pesapalConfig()?.environment
+  const demo = !process.env.PESAPAL_ENVIRONMENT?.trim() && process.env.STUDIO_DEMO_CHECKOUT === 'true'
 
   return (
     <SitePage
@@ -21,7 +22,7 @@ export default async function BookPage({
       description="Build your package, choose a time in Mbarara, and pay for your booking online."
       actions={<Link href="#booking-flow" className={styles.primaryButton}>Start booking</Link>}
     >
-      <StudioCheckout key={JSON.stringify(initial)} initial={initial} paymentMode={paymentMode} />
+      <StudioCheckout key={JSON.stringify(initial)} initial={initial} paymentMode={paymentMode} demo={demo} />
     </SitePage>
   )
 }
