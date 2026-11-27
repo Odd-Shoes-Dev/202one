@@ -10,7 +10,7 @@ const links = [
   { href: '/admin/bookings', label: 'Bookings'  },
   { href: '/admin/content',  label: 'Content'   },
   { href: '/admin/pricing',  label: 'Pricing'   },
-  { href: '/admin/feedback', label: 'Feedback'  },
+  { href: '/admin/feedback', label: 'Enquiries & feedback' },
 ]
 
 export default function AdminNav() {

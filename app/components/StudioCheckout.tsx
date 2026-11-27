@@ -6,11 +6,11 @@ import { openStudioCheckout } from '@/app/book/payment-action'
 import type { PesapalEnvironment } from '@/lib/pesapal'
 import { addons, bookingHref, demoDeposit, durationOptions, plans, quoteLines, ugx, type QuoteOptions, type StudioAddon, type StudioPlan } from '@/lib/studio-quote'
 import { availableSlot, readReservations, reservationSnapshot, reserveDemoBooking, studioTime, studioToday, subscribeToReservations, type DemoReceipt, type DemoSlot } from '@/lib/demo-reservations'
+import ContactForm from './ContactForm'
 import styles from './StudioCheckout.module.css'
 
 const methods = ['MTN Mobile Money', 'Airtel Money', 'Card']
 const startHours = [9, 10, 11, 12, 13, 14, 15, 16, 17, 18]
-const steps = ['Build package', 'Choose time', 'Checkout']
 const emptySnapshot = () => '[]'
 
 export default function StudioCheckout({
@@ -31,6 +31,7 @@ export default function StudioCheckout({
   const heading = useRef<HTMLDivElement>(null)
   const snapshot = useSyncExternalStore(subscribeToReservations, reservationSnapshot, emptySnapshot)
   const checkoutAvailable = Boolean(paymentMode || demo)
+  const steps = ['Build package', checkoutAvailable ? 'Choose time' : 'Preferred time', checkoutAvailable ? 'Checkout' : 'Request booking']
   const reservations = demo ? readReservations(snapshot) : []
   const lines = quoteLines(quote)
   const total = lines.reduce((sum, line) => sum + line.amount, 0)
@@ -121,12 +122,20 @@ export default function StudioCheckout({
     }
   }
 
+  const nextAction = pricing && total > 0 ? (
+    <Link className={styles.primary} href={bookingHref(quote)}>Continue to booking</Link>
+  ) : (
+    <button type="button" className={styles.primary} disabled={!total} onClick={() => changeStep(1)}>
+      {pricing ? 'Continue to booking' : 'Choose date and time'}
+    </button>
+  )
+
   return (
     <section id="booking-flow" className={styles.checkout} aria-labelledby="checkout-heading">
       <header ref={heading} tabIndex={-1} className={styles.heading}>
         {paymentMode === 'sandbox' && <p className={styles.notice}>Pesapal sandbox · Sample rates</p>}
         {demo && <p className={styles.notice}>Booking demo · Sample rates and simulated payments</p>}
-        {!pricing && !checkoutAvailable && <p className={styles.notice}>Online checkout is temporarily unavailable.</p>}
+        {!pricing && !checkoutAvailable && <p className={styles.notice}>Request a booking and the studio will confirm availability by email.</p>}
         <h2 id="checkout-heading">{receipt ? 'Demo booking confirmed' : pricing ? 'Build your price' : steps[step]}</h2>
         {!receipt && !pricing && (
           <ol className={styles.steps} aria-label="Booking progress">
@@ -198,8 +207,8 @@ export default function StudioCheckout({
 
             {step === 1 && (
               <form onSubmit={chooseTime} className={styles.form}>
-                <h3>Reserve your booking window</h3>
-                <p>Mbarara time (EAT). {paymentMode && 'We check availability and hold your time when you open checkout.'}{demo && 'Availability in this demo reflects reservations made in this browser.'}</p>
+                <h3>{checkoutAvailable ? 'Choose your booking window' : 'Choose a preferred booking time'}</h3>
+                <p>Mbarara time (EAT). {!checkoutAvailable && 'The studio will confirm your time after receiving your request.'}{paymentMode && 'We check availability and hold your time when you open checkout.'}{demo && 'Availability in this demo reflects reservations made in this browser.'}</p>
                 <div className={styles.formGrid}>
                   <label><span>Date</span><input type="date" required min={studioToday()} defaultValue={date} onInput={(event) => { setDate(event.currentTarget.value); setStart(''); setError('') }} /></label>
                   <label>
@@ -215,23 +224,22 @@ export default function StudioCheckout({
                   </label>
                 </div>
                 {date && startHours.every((hour) => !availableSlot({ ...slot, start: hour }, reservations)) && (
-                  <p role="status">No times are available for this date and duration.</p>
+                  <p role="status">No times fit this date and duration. Choose another date or shorten your package.</p>
                 )}
                 {error && <p className={styles.error} role="alert">{error}</p>}
                 <div className={styles.buttons}>
                   <button type="button" className={styles.secondary} onClick={() => changeStep(0)}>Back</button>
-                  <button type="submit" className={styles.primary} disabled={!chosenTimeAvailable}>Continue to checkout</button>
+                  <button type="submit" className={styles.primary} disabled={!chosenTimeAvailable}>{checkoutAvailable ? 'Continue to checkout' : 'Request a booking'}</button>
                 </div>
               </form>
             )}
 
             {step === 2 && !checkoutAvailable && (
               <div className={styles.form}>
-                <h3>Online checkout is temporarily unavailable</h3>
-                <p>Contact the studio to book your selected package and time.</p>
+                <p>{date} · {studioTime(slot.start)}–{studioTime(slot.start + slot.hours)} EAT</p>
+                <ContactForm booking={{ quote, date, start: slot.start }} />
                 <div className={styles.buttons}>
-                  <button type="button" className={styles.secondary} onClick={() => changeStep(1)}>Back</button>
-                  <Link href="/contact" className={styles.primary}>Contact the studio</Link>
+                  <button type="button" className={styles.secondary} onClick={() => changeStep(1)}>Change time</button>
                 </div>
               </div>
             )}
@@ -279,18 +287,18 @@ export default function StudioCheckout({
             {quote.tier === 'services' && <p>{quote.hours} {quote.hours === 1 ? 'hour' : 'hours'} reserved for scheduling</p>}
             <dl aria-live="polite">
               {lines.map(({ title, amount }) => <div key={title}><dt>{title}</dt><dd>{ugx(amount)}</dd></div>)}
-              <div className={styles.total}><dt>{demo ? 'Demo total' : 'Package total'}</dt><dd>{ugx(total)}</dd></div>
+              <div className={styles.total}><dt>{demo ? 'Demo total' : checkoutAvailable ? 'Package total' : 'Estimated total'}</dt><dd>{ugx(total)}</dd></div>
               {step === 2 && deposit && <div><dt>Balance after deposit</dt><dd>{ugx(total - amount)}</dd></div>}
             </dl>
             {total === 0 && <p>Choose at least one service to continue.</p>}
-            {step === 0 && (pricing && total > 0 ? (
-              <Link className={styles.primary} href={bookingHref(quote)}>Continue to booking</Link>
-            ) : (
-              <button type="button" className={styles.primary} disabled={!total} onClick={() => changeStep(1)}>
-                {pricing ? 'Continue to booking' : 'Choose date and time'}
-              </button>
-            ))}
+            {step === 0 && <div className={styles.desktopAction}>{nextAction}</div>}
           </aside>
+          {step === 0 && (
+            <div className={styles.mobileSummary}>
+              <p>Estimated total <strong>{ugx(total)}</strong></p>
+              {nextAction}
+            </div>
+          )}
         </div>
       )}
     </section>

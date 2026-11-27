@@ -237,3 +237,23 @@
   .heroHome h1 { font-size: clamp(2.35rem, 12vw, 3.1rem); }
   .actions > a { width: 100%; }
 }
+
+.infoCard .rate {
+  color: var(--site-blue);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.featuredSession {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: clamp(1.5rem, 4vw, 4rem);
+  align-items: center;
+}
+
+.featuredSession:has(.sessionVideo) { grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr); }
+.sessionVideo { width: 100%; aspect-ratio: 16 / 9; border: 0; background: var(--site-black); }
+
+@media (max-width: 50rem) {
+  .featuredSession:has(.sessionVideo) { grid-template-columns: minmax(0, 1fr); }
+}

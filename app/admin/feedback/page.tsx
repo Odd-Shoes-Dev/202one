@@ -3,7 +3,7 @@ import { db } from '@/lib/adapters/db'
 import type { StudioFeedback } from '@/lib/types'
 import styles from '../admin.module.css'
 
-export const metadata = { title: 'Feedback | 202One Studio Admin' }
+export const metadata = { title: 'Enquiries & feedback | 202One Studio Admin' }
 
 const dateFormat = new Intl.DateTimeFormat('en-UG', {
   dateStyle: 'medium',
@@ -24,13 +24,13 @@ export default async function FeedbackPage() {
   return (
     <section>
       <div className={styles.pageHeader}>
-        <h1 className={styles.pageTitle}>Studio feedback</h1>
-        <p className={styles.pageSub}>Recent feedback from site visitors.</p>
+        <h1 className={styles.pageTitle}>Enquiries & feedback</h1>
+        <p className={styles.pageSub}>Booking requests, studio enquiries, and feedback from site visitors.</p>
       </div>
       {feedback === null ? (
-        <p>Feedback is unavailable. Check the database connection and feedback migration.</p>
+        <p>The studio inbox is unavailable. Check the database connection and feedback migration.</p>
       ) : feedback.length === 0 ? (
-        <p>No feedback has been submitted yet.</p>
+        <p>No enquiries or feedback have been submitted yet.</p>
       ) : (
         <ul className={styles.feedbackList}>
           {feedback.map(({ id, message, created_at }) => (

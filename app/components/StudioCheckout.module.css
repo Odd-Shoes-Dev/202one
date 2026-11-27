@@ -171,3 +171,25 @@
 @media (max-width: 36rem) {
   .planGrid, .addonGrid, .formGrid { grid-template-columns: minmax(0, 1fr); }
 }
+
+.mobileSummary { display: none; }
+
+@media (max-width: 61rem) {
+  .desktopAction { display: none; }
+  .mobileSummary {
+    position: sticky;
+    bottom: 0;
+    z-index: 2;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: .5rem .75rem;
+    padding: .65rem .75rem max(.65rem, env(safe-area-inset-bottom));
+    background: var(--site-white);
+    border: 1px solid var(--site-line);
+    box-shadow: 0 -.25rem 1.25rem #0c0d1314;
+  }
+  .mobileSummary p { color: var(--site-muted); font-size: .875rem; }
+  .mobileSummary strong { display: block; color: var(--site-blue); font-size: 1rem; }
+}

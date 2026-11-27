@@ -1,49 +1,69 @@
 'use client'
 
-import { useState, type FormEvent } from 'react'
+import { useActionState, useRef, useState } from 'react'
+import { submitEnquiry } from '@/app/actions/enquiry'
+import type { FeedbackState } from '@/app/actions/feedback'
+import type { QuoteOptions } from '@/lib/studio-quote'
 import styles from './ContactForm.module.css'
 
-export default function ContactForm() {
-  const [result, setResult] = useState('')
+type Booking = { quote: QuoteOptions; date: string; start: number }
 
-  function sendDemoEnquiry(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault()
-    const data = new FormData(event.currentTarget)
-    const subject = data.get('subject')
-    const message = data.get('message')
-    if (typeof subject !== 'string' || typeof message !== 'string' || !message.trim()) {
-      setResult('Enter a message to continue.')
-      return
+const initialState: FeedbackState = { status: 'idle', message: '' }
+
+export default function ContactForm({ booking }: { booking?: Booking }) {
+  const submissionId = useRef<string | null>(null)
+  const [subject, setSubject] = useState('Studio booking')
+  const [name, setName] = useState('')
+  const [email, setEmail] = useState('')
+  const [message, setMessage] = useState('')
+
+  const [state, action, pending] = useActionState(async (previous: FeedbackState, data: FormData) => {
+    submissionId.current ??= crypto.randomUUID()
+    data.set('submissionId', submissionId.current)
+    if (booking) {
+      data.set('kind', 'booking')
+      data.set('tier', booking.quote.tier)
+      data.set('hours', String(booking.quote.hours))
+      data.set('extras', booking.quote.extras.join(','))
+      data.set('date', booking.date)
+      data.set('start', String(booking.start))
     }
-    try {
-      const entry = { subject, message: message.trim().slice(0, 2000), createdAt: new Date().toISOString() }
-      window.localStorage.setItem('202one-demo-enquiry', JSON.stringify(entry))
-      event.currentTarget.reset()
-      setResult('Demo enquiry saved in this browser.')
-    } catch {
-      setResult('The demo enquiry could not be saved. Check that this browser allows site storage.')
-    }
+    return submitEnquiry(previous, data)
+  }, initialState)
+
+  if (state.status === 'success') {
+    return <p className={styles.status} role="status">{state.message}</p>
   }
 
   return (
-    <form className={styles.form} onSubmit={sendDemoEnquiry}>
-      <h3>Send a studio enquiry</h3>
-      <p>Try the contact form with a sample message.</p>
+    <form className={styles.form} action={action}>
+      <h3>{booking ? 'Request your booking' : 'Send a studio enquiry'}</h3>
+      <p>{booking ? 'Share your contact details so we can confirm availability and arrange payment.' : 'Tell us what you’re planning. We’ll reply to the email you provide.'}</p>
+      {!booking && (
+        <label>
+          <span>What can we help with?</span>
+          <select name="subject" value={subject} onChange={(event) => setSubject(event.target.value)}>
+            <option>Studio booking</option>
+            <option>Student project</option>
+            <option>Creative services</option>
+            <option>Studio visit</option>
+          </select>
+        </label>
+      )}
       <label>
-        <span>What can we help with?</span>
-        <select name="subject">
-          <option>Studio booking</option>
-          <option>Student project</option>
-          <option>Creative services</option>
-          <option>Studio visit</option>
-        </select>
+        <span>Your name</span>
+        <input name="name" autoComplete="name" required maxLength={100} value={name} onChange={(event) => setName(event.target.value)} />
       </label>
       <label>
-        <span>Message</span>
-        <textarea name="message" rows={5} required maxLength={2000} />
+        <span>Reply email</span>
+        <input name="email" type="email" autoComplete="email" required maxLength={200} value={email} onChange={(event) => setEmail(event.target.value)} />
       </label>
-      <button type="submit">Save demo enquiry</button>
-      {result && <p role="status">{result}</p>}
+      <label>
+        <span>{booking ? 'Project notes (optional)' : 'Message'}</span>
+        <textarea name="message" rows={4} required={!booking} maxLength={1000} value={message} onChange={(event) => setMessage(event.target.value)} />
+      </label>
+      {state.status === 'error' && <p className={styles.error} role="alert">{state.message}</p>}
+      <button type="submit" disabled={pending}>{pending ? 'Sending…' : booking ? 'Send booking request' : 'Send enquiry'}</button>
     </form>
   )
 }

@@ -22,7 +22,7 @@ export default function ContactPage() {
           <p>Ask about private rooms, student sessions, production, or event coverage.</p>
           {email && <p><a href={`mailto:${email}`}>{email}</a></p>}
           {phone && <p><a href={`tel:${phone.replace(/[^+\d]/g, '')}`}>{phone}</a></p>}
-          <Link href="/book#booking-flow" className={styles.blueButton}>Start a booking</Link>
+          <Link href="/book#booking-flow" className={styles.blueButton}>Choose a studio package</Link>
           <p><a href="#location">Find the studio in Mbarara, Uganda</a></p>
         </section>
         <ContactForm />

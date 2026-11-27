@@ -15,12 +15,16 @@ export default async function BookPage({
   const paymentMode = pesapalConfig()?.environment
   const demo = !process.env.PESAPAL_ENVIRONMENT?.trim() && process.env.STUDIO_DEMO_CHECKOUT === 'true'
 
+  const checkoutAvailable = Boolean(paymentMode || demo)
+
   return (
     <SitePage
       title="Book the Studio"
       image="booking"
-      description="Build your package, choose a time in Mbarara, and pay for your booking online."
-      actions={<Link href="#booking-flow" className={styles.primaryButton}>Start booking</Link>}
+      description={checkoutAvailable
+        ? 'Build your package, choose a time in Mbarara, and continue to checkout.'
+        : 'Build your package and request a preferred time in Mbarara. We’ll reply by email to confirm availability.'}
+      actions={<Link href="#booking-flow" className={styles.primaryButton}>{checkoutAvailable ? 'Start booking' : 'Request a booking'}</Link>}
     >
       <StudioCheckout key={JSON.stringify(initial)} initial={initial} paymentMode={paymentMode} demo={demo} />
     </SitePage>

@@ -7,7 +7,7 @@ import styles from './Nav.module.css'
 
 const links = [
   { href: '/', label: 'Home' },
-  { href: '/work', label: 'Sections' },
+  { href: '/work', label: 'Services' },
   { href: '/studio', label: 'Studio' },
   { href: '/live-sessions', label: 'Live Sessions' },
   { href: '/pricing', label: 'Pricing' },

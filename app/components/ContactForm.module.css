@@ -11,7 +11,7 @@
 .form h3 { font-size: 1.45rem; line-height: 1.2; }
 .form p { color: var(--site-muted); }
 .form label { display: grid; gap: .3rem; font-weight: 700; }
-.form select, .form textarea {
+.form input, .form select, .form textarea {
   width: 100%;
   min-width: 0;
   padding: .65rem;
@@ -32,4 +32,13 @@
   font: 700 1rem var(--sans);
   cursor: pointer;
 }
-.form button:hover { background: #ffa47b; }
+.form button:hover:not(:disabled) { background: #ffa47b; }
+.form button:disabled { cursor: default; opacity: .65; }
+.form .error { color: #952c14; font-weight: 600; }
+.status {
+  padding: 1rem;
+  border-top: 3px solid var(--site-blue);
+  background: var(--site-white);
+  color: var(--site-blue);
+  font-weight: 700;
+}

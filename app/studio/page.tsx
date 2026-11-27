@@ -3,7 +3,7 @@ import Link from 'next/link'
 import SitePage from '@/app/components/SitePage'
 import WorkGrid from '@/app/components/WorkGrid'
 import styles from '@/app/components/Site.module.css'
-import { bookingHref, plans, type StudioPlan } from '@/lib/studio-quote'
+import { bookingHref, plans, ugx, type StudioPlan } from '@/lib/studio-quote'
 
 export const metadata: Metadata = {
   title: 'The Studio | 202One Studio',
@@ -28,6 +28,7 @@ export default function StudioPage() {
             <article key={tier} className={styles.infoCard}>
               <h3>{plans[tier].title}</h3>
               <p>{plans[tier].description}</p>
+              <p className={styles.rate}>{ugx(plans[tier].hourly)} / hour</p>
               <Link href={bookingHref({ tier, hours: 1, extras: [] })} className={styles.textLink}>Customize this package</Link>
             </article>
           ))}
@@ -37,7 +38,7 @@ export default function StudioPage() {
         <div className={styles.container}>
           <div className={styles.sectionHeading}>
             <div>
-              <h2 id="studio-sections">Studio sections</h2>
+              <h2 id="studio-sections">Creative services</h2>
               <p>Combine videography, photography, graphics, and audio in the same booking, or book a service on its own.</p>
             </div>
           </div>

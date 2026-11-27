@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 import { useActionState, useRef, useState } from 'react'
 import { submitFeedback, type FeedbackState } from '@/app/actions/feedback'
 import styles from './FloatingActions.module.css'
@@ -36,7 +37,7 @@ function FeedbackForm({ submissionId }: { submissionId: string }) {
   )
 }
 
-export default function FloatingActions() {
+export function FeedbackButton() {
   const dialog = useRef<HTMLDialogElement>(null)
   const [submissionId, setSubmissionId] = useState<string | null>(null)
 
@@ -47,29 +48,15 @@ export default function FloatingActions() {
 
   return (
     <>
-      <div className={styles.actions} role="group" aria-label="Quick actions">
-        <Link className={styles.booking} href="/book#booking-flow" aria-label="Book the Studio">
-          <svg className={styles.icon} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-            <rect x="3" y="5" width="18" height="16" rx="2" />
-            <path d="M7 3v4m10-4v4M3 10h18m-12 5 2 2 4-4" />
-          </svg>
-          <span className={styles.actionLabel} aria-hidden="true">Book the Studio</span>
-        </Link>
-        <button
-          className={styles.feedback}
-          type="button"
-          aria-label="Feedback"
-          aria-haspopup="dialog"
-          aria-controls="feedback-dialog"
-          onClick={openFeedback}
-        >
-          <svg className={styles.icon} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-            <path d="M21 11.5a8 8 0 0 1-8 8h-2l-6 2 1.5-4.5A8 8 0 1 1 21 11.5Z" />
-            <path d="M8.5 10h7m-7 4h5" />
-          </svg>
-          <span className={styles.actionLabel} aria-hidden="true">Feedback</span>
-        </button>
-      </div>
+      <button
+        className={styles.feedback}
+        type="button"
+        aria-haspopup="dialog"
+        aria-controls="feedback-dialog"
+        onClick={openFeedback}
+      >
+        Feedback
+      </button>
       <dialog
         ref={dialog}
         id="feedback-dialog"
@@ -85,5 +72,22 @@ export default function FloatingActions() {
         {submissionId && <FeedbackForm submissionId={submissionId} />}
       </dialog>
     </>
+  )
+}
+
+export default function FloatingActions() {
+  const pathname = usePathname()
+  if (pathname === '/book' || pathname.startsWith('/book/') || pathname === '/pricing') return null
+
+  return (
+    <div className={styles.actions} role="group" aria-label="Booking shortcut">
+      <Link className={styles.booking} href="/book#booking-flow" aria-label="Book the Studio">
+        <svg className={styles.icon} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+          <rect x="3" y="5" width="18" height="16" rx="2" />
+          <path d="M7 3v4m10-4v4M3 10h18m-12 5 2 2 4-4" />
+        </svg>
+        <span className={styles.actionLabel} aria-hidden="true">Book the Studio</span>
+      </Link>
+    </div>
   )
 }

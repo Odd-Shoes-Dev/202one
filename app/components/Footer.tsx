@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { categories } from '@/lib/portfolio'
+import { FeedbackButton } from './FloatingActions'
 import styles from './Footer.module.css'
 
 export default function Footer() {
@@ -12,9 +13,9 @@ export default function Footer() {
             <p>Raised here. Sent everywhere.</p>
             <p>Mbarara, Uganda</p>
           </div>
-          <nav className={styles.links} aria-label="Sections and studio links">
+          <nav className={styles.links} aria-label="Services and studio links">
             <div>
-              <h2>Sections</h2>
+              <h2>Services</h2>
               {Object.entries(categories).map(([slug, category]) => (
                 <Link key={slug} href={`/work/${slug}`}>{category.title}</Link>
               ))}
@@ -32,6 +33,7 @@ export default function Footer() {
               <Link href="/community">Community</Link>
               <Link href="/contact">Contact</Link>
               <Link href="/contact#location">Find the studio</Link>
+              <FeedbackButton />
             </div>
           </nav>
         </div>
