@@ -1,6 +1,6 @@
 import type { PaymentAdapter, PaymentIntent } from '../interface'
 
-// Simulates payment flow until a real provider (Flutterwave, DPO Pay) is wired up.
+// Simulates payment intents for manual booking requests.
 export const mockPayment: PaymentAdapter = {
   async createPaymentIntent(amount: number, bookingId: string): Promise<PaymentIntent> {
     console.log(`[PAYMENT] Intent created — UGX ${amount.toLocaleString()} for booking ${bookingId}`)

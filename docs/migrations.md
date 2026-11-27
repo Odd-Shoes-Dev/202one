@@ -56,6 +56,7 @@ The runner will:
 | `006_create_sessions.sql` | 202One Sessions (live recordings) |
 | `007_create_feedback.sql` | Visitor submissions shown under Admin → Feedback |
 | `008_create_studio_checkout_payments.sql` | Checkout holds, itemized quotes, and verified Flutterwave test payments |
+| `009_add_pesapal_checkout.sql` | Pesapal environment and order tracking ID for studio payments |
 
 ---
 

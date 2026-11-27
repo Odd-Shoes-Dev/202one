@@ -20,7 +20,7 @@ See [`docs/overview.md`](docs/overview.md) for the full project brief.
 |---|---|
 | [`docs/overview.md`](docs/overview.md) | Project overview, tech stack, key decisions |
 | [`docs/architecture.md`](docs/architecture.md) | Booking as aggregate root, adapter pattern, folder structure, backend separation strategy |
-| [`docs/flutterwave-test.md`](docs/flutterwave-test.md) | Flutterwave sandbox setup for studio bookings |
+| [`docs/pesapal.md`](docs/pesapal.md) | Pesapal sandbox and live checkout setup for studio bookings |
 | [`docs/admin.md`](docs/admin.md) | Admin section — booking management, content control, pricing & promotions |
 
 ---

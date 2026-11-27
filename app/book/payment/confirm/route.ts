@@ -1,23 +1,24 @@
-import { flutterwaveConfig } from '@/lib/flutterwave'
+import { pesapalConfig, readPesapalTrackingId } from '@/lib/pesapal'
 import { paymentBookingId, reconcileStudioPayment } from '@/lib/studio-payments'
 
 export async function GET(request: Request) {
-  const config = flutterwaveConfig()
+  const config = pesapalConfig()
   const params = new URL(request.url).searchParams
-  const reference = params.get('tx_ref') ?? ''
-  const incomingId = params.get('transaction_id') ?? ''
-  const transactionId = /^\d{1,20}$/.test(incomingId) ? incomingId : undefined
-  if (!config || !paymentBookingId(reference)) {
+  const callbackReference = params.get('OrderMerchantReference')
+  const reference = callbackReference ?? params.get('tx_ref') ?? ''
+  if (!paymentBookingId(reference)) {
     return new Response(null, { status: 303, headers: { Location: '/book#booking-flow', 'Cache-Control': 'no-store' } })
   }
 
-  try {
-    await reconcileStudioPayment(config, reference, transactionId)
-  } catch {
-    console.error('Studio checkout return could not verify the transaction')
+  const trackingId = readPesapalTrackingId(params.get('OrderTrackingId'))
+  if (config && (callbackReference === null || trackingId)) {
+    try {
+      await reconcileStudioPayment(config, reference, trackingId ?? undefined)
+    } catch {
+      console.error('Pesapal checkout return could not verify the transaction')
+    }
   }
 
   const query = new URLSearchParams({ tx_ref: reference })
-  if (transactionId) query.set('transaction_id', transactionId)
   return new Response(null, { status: 303, headers: { Location: `/book/payment?${query}`, 'Cache-Control': 'no-store' } })
 }
