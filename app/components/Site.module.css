@@ -6,12 +6,18 @@
   --site-paper: #f5f6fa;
   --site-muted: #4b5166;
   --site-line: #d8dce7;
+  --site-nav-height: 4.75rem;
   --site-gutter: clamp(1rem, 2vw, 3rem);
   background: var(--site-white);
   color: var(--site-black);
   min-height: 100svh;
 }
 
+@media (max-width: 74rem) {
+  .site { --site-nav-height: 4.25rem; }
+}
+
+.site :target { scroll-margin-block-start: calc(var(--site-nav-height) + 1rem); }
 .site :focus-visible { outline: 2px solid var(--site-orange); outline-offset: 4px; }
 .site main:focus { outline: none; }
 

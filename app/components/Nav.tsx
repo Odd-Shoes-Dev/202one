@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import styles from './Nav.module.css'
 
 const links = [
@@ -19,10 +19,31 @@ const links = [
 export default function Nav() {
   const pathname = usePathname()
   const [menuOpen, setMenuOpen] = useState(false)
+  const [hidden, setHidden] = useState(false)
+  const header = useRef<HTMLElement>(null)
   const menuButton = useRef<HTMLButtonElement>(null)
 
+  useEffect(() => {
+    let previousY = Math.max(0, window.scrollY)
+
+    function handleScroll() {
+      const scrollY = Math.max(0, window.scrollY)
+      if (scrollY <= (header.current?.offsetHeight ?? 0)) {
+        setHidden(false)
+      } else if (Math.abs(scrollY - previousY) >= 6) {
+        setHidden(scrollY > previousY)
+      } else {
+        return
+      }
+      previousY = scrollY
+    }
+
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
+
   return (
-    <header className={styles.header}>
+    <header ref={header} className={styles.header} data-hidden={hidden} data-menu-open={menuOpen}>
       <nav
         className={styles.nav}
         aria-label="Main navigation"
