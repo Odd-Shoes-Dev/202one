@@ -16,18 +16,22 @@ export default function ContactPage() {
 
   return (
     <SitePage title="Contact" image="about" description="Talk to us about your project, check booking options, or find the studio in Mbarara.">
-      <div className={`${styles.container} ${styles.section} ${styles.contactGrid}`}>
-        <section className={styles.copy} aria-labelledby="contact-options">
-          <h2 id="contact-options">Talk to 202One</h2>
-          <p>Ask about private rooms, student sessions, production, or event coverage.</p>
-          {email && <p><a href={`mailto:${email}`}>{email}</a></p>}
-          {phone && <p><a href={`tel:${phone.replace(/[^+\d]/g, '')}`}>{phone}</a></p>}
-          <Link href="/book#booking-flow" className={styles.blueButton}>Choose a studio package</Link>
-          <p><a href="#location">Find the studio in Mbarara, Uganda</a></p>
+      <div className={`${styles.container} ${styles.contactGrid}`}>
+        <section className={styles.contactColumn} aria-labelledby="contact-options">
+          <div className={styles.copy}>
+            <h2 id="contact-options">Talk to 202One</h2>
+            <p>Ask about private rooms, student sessions, production, or event coverage.</p>
+            {email && <p><a href={`mailto:${email}`}>{email}</a></p>}
+            {phone && <p><a href={`tel:${phone.replace(/[^+\d]/g, '')}`}>{phone}</a></p>}
+          </div>
+          <ContactForm />
+          <div className={styles.contactLinks}>
+            <Link href="/book#booking-flow" className={styles.textLink}>Choose a studio package</Link>
+            <a href="#location" className={styles.textLink}>Find the studio</a>
+          </div>
         </section>
-        <ContactForm />
+        <StudioLocation />
       </div>
-      <StudioLocation />
     </SitePage>
   )
 }

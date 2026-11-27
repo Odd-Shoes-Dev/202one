@@ -1,3 +1,4 @@
+import site from './Site.module.css'
 import styles from './StudioLocation.module.css'
 
 const latitude = -0.596442
@@ -10,20 +11,23 @@ const mapParams = new URLSearchParams({
 })
 
 export default function StudioLocation({ compact = false }: { compact?: boolean }) {
+  const directions = (
+    <a
+      className={compact ? styles.directions : site.textLink}
+      href={googleMapsLink}
+      target="_blank"
+      rel="noreferrer"
+    >
+      Open in Google Maps
+    </a>
+  )
+
   return (
-    <section id="location" className={compact ? `${styles.location} ${styles.compact}` : styles.location} aria-labelledby="location-title">
-      <div className={styles.details}>
+    <section id="location" className={compact ? styles.compact : styles.location} aria-labelledby="location-title">
+      <div className={compact ? styles.details : site.copy}>
         <h2 id="location-title">{compact ? 'See what you can make in Mbarara' : 'Find us in Mbarara'}</h2>
         <p>{compact ? 'Visit 202One for a private room, a recording session, or a team to help finish your project.' : '202One Studio is based in Mbarara, Uganda. Use the map pin to plan your visit.'}</p>
-        {!compact && <p className={styles.coordinates}>{latitude}, {longitude}</p>}
-        <a
-          className={styles.directions}
-          href={googleMapsLink}
-          target="_blank"
-          rel="noreferrer"
-        >
-          Open in Google Maps
-        </a>
+        {compact && directions}
       </div>
       <iframe
         className={styles.map}
@@ -33,6 +37,12 @@ export default function StudioLocation({ compact = false }: { compact?: boolean 
         referrerPolicy="strict-origin-when-cross-origin"
         allowFullScreen
       />
+      {!compact && (
+        <div className={styles.mapActions}>
+          <p className={styles.coordinates}>{latitude}, {longitude}</p>
+          {directions}
+        </div>
+      )}
     </section>
   )
 }
