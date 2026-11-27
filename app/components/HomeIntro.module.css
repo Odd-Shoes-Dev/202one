@@ -1,66 +1,122 @@
 .intro {
-  display: grid;
-  grid-template-columns: minmax(0, .8fr) minmax(0, 1.3fr);
-  gap: clamp(1.75rem, 4vw, 5rem);
-  padding: clamp(2.75rem, 6vw, 5.5rem) var(--site-gutter);
-  background: var(--site-blue);
+  padding: clamp(2.25rem, 5vw, 4.75rem) var(--site-gutter);
+  background: var(--site-black);
   color: var(--site-white);
 }
 
-.copy {
-  display: grid;
-  align-content: center;
-  justify-items: start;
-  gap: 1rem;
-  padding-inline-start: clamp(0rem, 2vw, 2.5rem);
+.heading {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 1rem 2rem;
+  margin-bottom: clamp(1.35rem, 3vw, 2.25rem);
 }
 
-.copy h2 {
-  font: 700 clamp(2.5rem, 5.5vw, 5.7rem)/.99 var(--serif);
-  letter-spacing: -.041em;
+.heading h2 {
+  font: 700 clamp(2.4rem, 5.2vw, 5.4rem)/.98 var(--serif);
+  letter-spacing: -.048em;
   text-wrap: balance;
 }
 
-.copy h2 span { color: #ffc7a9; }
-
-.copy p {
-  color: #eef1ff;
-  max-width: 30rem;
-  font-size: clamp(1rem, 1.5vw, 1.2rem);
-  line-height: 1.5;
-}
+.heading h2 span { color: #ffc7a9; }
 
 .link {
-  min-height: 3rem;
   display: inline-flex;
+  flex-shrink: 0;
   align-items: center;
-  justify-content: center;
+  gap: .6em;
+  min-height: 3rem;
   padding: .7rem 1rem;
-  border: 1px solid var(--site-white);
+  border: 1px solid #ffffff66;
   font-weight: 700;
 }
 
-.link:hover { background: var(--site-white); color: var(--site-blue); }
+.link:hover { background: var(--site-white); color: var(--site-black); }
+.link svg { inline-size: 1em; block-size: 1em; }
 
-.collage {
+.gallery {
   display: grid;
-  grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
-  grid-template-rows: repeat(2, minmax(0, 1fr));
-  min-height: clamp(20rem, 29vw, 33rem);
-  gap: .4rem;
-  padding: .4rem;
-  background: var(--site-black);
+  grid-template-columns: minmax(0, 1.15fr) repeat(2, minmax(0, 1fr));
+  gap: clamp(.65rem, 1.4vw, 1.25rem);
+  list-style: none;
 }
 
-.collage > div { position: relative; overflow: hidden; }
-.collage img { object-fit: cover; }
-.performance { grid-row: span 2; }
-.performance img { object-position: 65% center; }
-.film img { object-position: right center; }
-.graphics img { object-position: 58% center; }
+.frame { min-width: 0; }
 
-@media (max-width: 48rem) {
-  .intro { grid-template-columns: 1fr; }
-  .copy { padding-inline-start: 0; }
-  .collage { min-height: clamp(14rem, 56vw, 22rem); }
+.card {
+  position: relative;
+  isolation: isolate;
+  overflow: clip;
+  display: flex;
+  align-items: end;
+  min-height: clamp(19rem, min(34vw, 58svh), 37rem);
+  border: 1px solid #ffffff35;
+  background: #141a2b;
+}
+
+.card img {
+  z-index: -2;
+  object-fit: cover;
+  object-position: center 37%;
+}
+
+.card::after {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  background: linear-gradient(0deg, #080910f6, #08091094 22%, transparent 66%);
+}
+
+.caption {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: .6em;
+  width: 100%;
+  padding: clamp(.9rem, 2.35vw, 2rem);
+  font: 700 clamp(1.3rem, 2.45vw, 2.5rem)/1.04 var(--serif);
+  letter-spacing: -.035em;
+}
+
+.caption svg { flex: none; inline-size: .85em; block-size: .85em; }
+.card:hover .caption, .card:focus-visible .caption { color: #ffb087; }
+
+.imageCredit {
+  color: #b9bfd0;
+  font-size: .8125rem;
+  margin-top: .65rem;
+  text-align: right;
+}
+
+@media (max-width: 50rem) {
+  .heading { align-items: start; flex-direction: column; }
+  .gallery { grid-template-columns: minmax(0, 1fr); }
+  .card {
+    min-height: 0;
+    aspect-ratio: 4 / 3;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) {
+    .frame {
+      animation: frame-arrive ease-out both;
+      animation-timeline: view();
+      animation-range: entry 0% cover 25%;
+    }
+
+    .frame:nth-child(2) { animation-range: entry 4% cover 26%; }
+    .frame:nth-child(3) { animation-range: entry 8% cover 28%; }
+  }
+}
+
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .card img { transition: transform .7s cubic-bezier(.2, .75, .3, 1); }
+  .card:is(:hover, :focus-visible) img { transform: scale(1.055); }
+}
+
+@keyframes frame-arrive {
+  from { opacity: .65; translate: 0 1rem; }
+  to { opacity: 1; translate: 0 0; }
 }

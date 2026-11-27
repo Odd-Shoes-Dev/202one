@@ -63,7 +63,13 @@
   text-align: center;
 }
 
-.heroHome { min-height: clamp(31rem, 49vw, 41rem); }
+.heroHome {
+  min-height: calc(100svh - var(--site-nav-height) - 1px);
+  padding: clamp(1.75rem, 4svh, 3.5rem) var(--site-gutter) clamp(4.75rem, 9svh, 6rem);
+  background: #0a0c15;
+}
+
+.heroHome .heroImage { object-position: center 53%; }
 
 .heroImage {
   z-index: -2;
@@ -80,8 +86,8 @@
 }
 
 .heroHome::after {
-  background: radial-gradient(ellipse at center, #080b15ce 0%, #080b158c 45%, #0a0c1838 100%),
-    linear-gradient(0deg, #05060fd9 0%, transparent 67%);
+  background: radial-gradient(ellipse at center, #080b1566 15%, #080b1530 56%, transparent 80%),
+    linear-gradient(0deg, var(--site-black) 0%, #080b159e 21%, transparent 55%);
 }
 
 .heroContent {
@@ -112,8 +118,45 @@
   text-wrap: balance;
 }
 
-.heroHome h1 { max-width: none; font-size: clamp(3.1rem, 8.5vw, 8rem); }
+.heroTitleLine { display: block; }
+
+.heroHome .heroContent {
+  width: 100%;
+  gap: clamp(.65rem, 2svh, 1.35rem);
+}
+
+.heroHome h1 {
+  max-width: 100%;
+  font-size: clamp(2.65rem, min(15.5vw, 24svh), 18rem);
+  line-height: .86;
+  letter-spacing: -.06em;
+}
+
+.heroHome .heroTitleLine {
+  overflow: clip;
+  padding-block: .045em .085em;
+}
+
+.heroHome .heroTitleLine > span { display: block; }
 .heroAccent { color: var(--site-orange); }
+
+.heroScroll {
+  position: absolute;
+  inset-block-end: clamp(.9rem, 2.4svh, 1.6rem);
+  inset-inline: 0;
+  margin-inline: auto;
+  display: grid;
+  place-items: center;
+  inline-size: 2.875rem;
+  block-size: 2.875rem;
+  border: 1px solid #ffffff70;
+  border-radius: 50%;
+  color: var(--site-white);
+  background: #0c0d1352;
+}
+
+.heroScroll:hover { background: var(--site-white); color: var(--site-black); }
+.heroScroll svg { inline-size: 1.25rem; block-size: 1.25rem; }
 
 .heroDescription {
   max-width: 37rem;
@@ -126,12 +169,10 @@
 .actions { display: flex; justify-content: center; flex-wrap: wrap; gap: .8rem; margin-top: .5rem; }
 
 @media (min-width: 60rem) {
-  .hero {
+  .hero:not(.heroHome) {
     min-height: clamp(26rem, 53svh, 38rem);
     padding-inline: var(--site-gutter);
   }
-
-  .heroHome { min-height: clamp(35rem, 70svh, 50rem); }
 }
 
 .primaryButton, .outlineButton, .lightButton, .blueButton {
@@ -284,8 +325,12 @@
 }
 
 @media (max-width: 44rem) {
-  .hero { padding: 3.75rem 1rem; }
-  .heroHome { min-height: 30rem; }
+  .hero:not(.heroHome) { padding: 3.75rem 1rem; }
+  .heroHome .heroImage { object-position: 88% center; }
+  .heroHome::after {
+    background: linear-gradient(0deg, var(--site-black), #080b154a 83%),
+      radial-gradient(ellipse at center, #080b15a3, #080b1547 70%, transparent);
+  }
   .heroLocation { letter-spacing: .095em; }
   .sectionHeading { flex-wrap: wrap; align-items: start; }
   .workGrid, .workSection { grid-template-columns: 1fr; }
@@ -293,7 +338,6 @@
 }
 
 @media (max-width: 24rem) {
-  .heroHome h1 { font-size: clamp(2.35rem, 12vw, 3.1rem); }
   .actions > a { width: 100%; }
 }
 
@@ -329,6 +373,17 @@
   .heroDescription { animation-delay: .12s; }
   .heroContent .actions { animation-delay: .2s; }
 
+  .heroHome .heroImage { animation-duration: 1.7s; }
+  .heroHome h1 { animation: none; }
+  .heroHome .heroTitleLine > span {
+    animation: hero-title-rise .88s cubic-bezier(.2, .75, .25, 1) .08s backwards;
+  }
+
+  .heroHome .heroAccent > span { animation-delay: .2s; }
+  .heroHome .heroDescription { animation-delay: .35s; }
+  .heroHome .actions { animation-delay: .43s; }
+  .heroScroll { animation: content-arrive .55s ease .65s backwards; }
+
   @supports (animation-timeline: view()) {
     .sectionHeading, .workCard, .infoCard {
       animation: content-arrive ease-out both;
@@ -341,6 +396,11 @@
 @media (hover: hover) and (prefers-reduced-motion: no-preference) {
   .workImage img { transition: transform .6s cubic-bezier(.2, .75, .3, 1); }
   .workCard:is(:hover, :focus-visible) img { transform: scale(1.05); }
+}
+
+@keyframes hero-title-rise {
+  from { translate: 0 100%; }
+  to { translate: 0 0; }
 }
 
 @keyframes hero-image-settle {

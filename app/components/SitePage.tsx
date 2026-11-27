@@ -1,11 +1,13 @@
+import { ArrowDown } from 'lucide-react'
 import Image from 'next/image'
+import Link from 'next/link'
 import type { ReactNode } from 'react'
 import Nav from './Nav'
 import Footer from './Footer'
 import FloatingActions from './FloatingActions'
 import styles from './Site.module.css'
 
-export type StudioImage = 'studio' | 'film' | 'graphics' | 'audio' | 'events' | 'sessions' | 'community' | 'booking' | 'work' | 'rehearsal' | 'pricing' | 'about'
+export type StudioImage = 'studio' | 'welcome' | 'film' | 'graphics' | 'audio' | 'events' | 'sessions' | 'community' | 'booking' | 'work' | 'rehearsal' | 'pricing' | 'about'
 
 export function studioImage(image: StudioImage) {
   return `/images/studio/${image}.webp`
@@ -34,12 +36,22 @@ export default function SitePage({
           <div className={styles.heroContent}>
             {home && <p className={styles.heroLocation}>202One Studio <span aria-hidden="true">·</span> Mbarara, Uganda</p>}
             <h1>
-              {title}
-              {highlight && <><br /><span className={styles.heroAccent}>{highlight}</span></>}
+              <span className={styles.heroTitleLine}><span>{title}</span></span>
+              {highlight && (
+                <>
+                  {' '}
+                  <span className={`${styles.heroTitleLine} ${styles.heroAccent}`}><span>{highlight}</span></span>
+                </>
+              )}
             </h1>
             <p className={styles.heroDescription}>{description}</p>
             {actions && <div className={styles.actions}>{actions}</div>}
           </div>
+          {home && (
+            <Link href="#studio" className={styles.heroScroll} aria-label="See inside the studio">
+              <ArrowDown aria-hidden="true" />
+            </Link>
+          )}
         </section>
         {children}
       </main>

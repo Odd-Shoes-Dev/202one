@@ -19,8 +19,8 @@ export default function Home() {
       home
       title="Make it here."
       highlight="Finish it here."
-      description="Rehearse, record, or produce your next project at our studio in Mbarara. Bring in our team for film, photography, design, or event coverage."
-      image="studio"
+      description="Book space to rehearse or record. Work with our team on film, photography, design, or event coverage."
+      image="welcome"
       actions={<>
         <Link href="#studio-time" className={`${styles.primaryButton} ${styles.iconLabel}`}>
           <CalendarDays aria-hidden="true" /> Book studio time
@@ -30,6 +30,7 @@ export default function Home() {
         </Link>
       </>}
     >
+      <HomeIntro />
       <section className={`${styles.container} ${styles.section}`} id="studio-time" aria-labelledby="home-studio-rates">
         <div className={styles.sectionHeading}>
           <div>
@@ -53,7 +54,6 @@ export default function Home() {
         </div>
       </section>
       <FeaturedSession home />
-      <HomeIntro />
       <section id="work" className={`${styles.section} ${styles.container}`} aria-labelledby="home-work">
         <div className={styles.sectionHeading}>
           <div>
