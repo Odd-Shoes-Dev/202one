@@ -1,9 +1,11 @@
+import { ArrowRight, CalendarDays } from 'lucide-react'
 import Link from 'next/link'
 import { bookingHref, plans, ugx } from '@/lib/studio-quote'
 import FeaturedSession from './components/FeaturedSession'
 import HomeIntro from './components/HomeIntro'
 import SitePage from './components/SitePage'
 import StudioLocation from './components/StudioLocation'
+import StudioPlanIcon from './components/StudioPlanIcon'
 import WorkGrid from './components/WorkGrid'
 import styles from './components/Site.module.css'
 
@@ -20,8 +22,12 @@ export default function Home() {
       description="Rehearse, record, or produce your next project at our studio in Mbarara. Bring in our team for film, photography, design, or event coverage."
       image="studio"
       actions={<>
-        <Link href="#studio-time" className={styles.primaryButton}>Book studio time</Link>
-        <Link href="/work" className={styles.outlineButton}>Hire our creative team</Link>
+        <Link href="#studio-time" className={`${styles.primaryButton} ${styles.iconLabel}`}>
+          <CalendarDays aria-hidden="true" /> Book studio time
+        </Link>
+        <Link href="/work" className={`${styles.outlineButton} ${styles.iconLabel}`}>
+          Hire our creative team <ArrowRight aria-hidden="true" />
+        </Link>
       </>}
     >
       <section className={`${styles.container} ${styles.section}`} id="studio-time" aria-labelledby="home-studio-rates">
@@ -34,7 +40,9 @@ export default function Home() {
         <div className={styles.infoGrid}>
           {studioOptions.map((tier) => (
             <article key={tier} className={styles.infoCard}>
-              <h3>{plans[tier].title}</h3>
+              <h3 className={styles.iconLabel}>
+                <StudioPlanIcon plan={tier} /> {plans[tier].title}
+              </h3>
               <p>{plans[tier].description}</p>
               <p className={styles.rate}>{ugx(plans[tier].hourly)} / hour</p>
               <Link href={bookingHref({ tier, hours: 1, extras: [] })} className={styles.textLink}>

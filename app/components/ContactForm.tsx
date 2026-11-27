@@ -1,10 +1,12 @@
 'use client'
 
+import { Send } from 'lucide-react'
 import { useActionState, useRef, useState } from 'react'
 import { submitEnquiry } from '@/app/actions/enquiry'
 import type { FeedbackState } from '@/app/actions/feedback'
 import type { QuoteOptions } from '@/lib/studio-quote'
 import styles from './ContactForm.module.css'
+import site from './Site.module.css'
 
 type Booking = { quote: QuoteOptions; date: string; start: number }
 
@@ -63,7 +65,9 @@ export default function ContactForm({ booking }: { booking?: Booking }) {
         <textarea name="message" rows={4} required={!booking} maxLength={1000} value={message} onChange={(event) => setMessage(event.target.value)} />
       </label>
       {state.status === 'error' && <p className={styles.error} role="alert">{state.message}</p>}
-      <button type="submit" disabled={pending}>{pending ? 'Sending…' : booking ? 'Send booking request' : 'Send enquiry'}</button>
+      <button className={site.iconLabel} type="submit" disabled={pending}>
+        <Send aria-hidden="true" /> {pending ? 'Sending…' : booking ? 'Send booking request' : 'Send enquiry'}
+      </button>
     </form>
   )
 }

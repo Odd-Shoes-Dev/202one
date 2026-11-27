@@ -1,5 +1,6 @@
 'use client'
 
+import { ArrowRight, CalendarDays, ClipboardList } from 'lucide-react'
 import Link from 'next/link'
 import { useRef, useState, useSyncExternalStore, type FormEvent } from 'react'
 import { openStudioCheckout } from '@/app/book/payment-action'
@@ -7,6 +8,8 @@ import type { PesapalEnvironment } from '@/lib/pesapal'
 import { addons, bookingHref, demoDeposit, durationOptions, plans, quoteLines, ugx, type QuoteOptions, type StudioAddon, type StudioPlan } from '@/lib/studio-quote'
 import { availableSlot, readReservations, reservationSnapshot, reserveDemoBooking, studioTime, studioToday, subscribeToReservations, type DemoReceipt, type DemoSlot } from '@/lib/demo-reservations'
 import ContactForm from './ContactForm'
+import StudioPlanIcon from './StudioPlanIcon'
+import site from './Site.module.css'
 import styles from './StudioCheckout.module.css'
 
 const methods = ['MTN Mobile Money', 'Airtel Money', 'Card']
@@ -123,9 +126,12 @@ export default function StudioCheckout({
   }
 
   const nextAction = pricing && total > 0 ? (
-    <Link className={styles.primary} href={bookingHref(quote)}>Continue to booking</Link>
+    <Link className={`${styles.primary} ${site.iconLabel}`} href={bookingHref(quote)}>
+      Continue to booking <ArrowRight aria-hidden="true" />
+    </Link>
   ) : (
-    <button type="button" className={styles.primary} disabled={!total} onClick={() => changeStep(1)}>
+    <button type="button" className={`${styles.primary} ${site.iconLabel}`} disabled={!total} onClick={() => changeStep(1)}>
+      {pricing ? <ArrowRight aria-hidden="true" /> : <CalendarDays aria-hidden="true" />}
       {pricing ? 'Continue to booking' : 'Choose date and time'}
     </button>
   )
@@ -177,7 +183,9 @@ export default function StudioCheckout({
                       <label className={styles.option} key={id}>
                         <input type="radio" name="studio-tier" value={id} checked={quote.tier === id} onChange={() => setQuote({ ...quote, tier: id as StudioPlan })} />
                         <span>
-                          <strong>{plan.title}</strong>
+                          <strong className={site.iconLabel}>
+                            <StudioPlanIcon plan={id as StudioPlan} /> {plan.title}
+                          </strong>
                           <span>{plan.description}</span>
                           <b>{plan.hourly ? `${ugx(plan.hourly)} / hour` : 'Priced by service'}</b>
                         </span>
@@ -283,7 +291,7 @@ export default function StudioCheckout({
           </div>
 
           <aside className={styles.summary} aria-label="Package summary">
-            <h3>Your package</h3>
+            <h3 className={site.iconLabel}><ClipboardList aria-hidden="true" /> Your package</h3>
             {quote.tier === 'services' && <p>{quote.hours} {quote.hours === 1 ? 'hour' : 'hours'} reserved for scheduling</p>}
             <dl aria-live="polite">
               {lines.map(({ title, amount }) => <div key={title}><dt>{title}</dt><dd>{ugx(amount)}</dd></div>)}

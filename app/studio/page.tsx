@@ -1,6 +1,8 @@
+import { MapPin, SlidersHorizontal } from 'lucide-react'
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import SitePage from '@/app/components/SitePage'
+import StudioPlanIcon from '@/app/components/StudioPlanIcon'
 import WorkGrid from '@/app/components/WorkGrid'
 import styles from '@/app/components/Site.module.css'
 import { bookingHref, plans, ugx, type StudioPlan } from '@/lib/studio-quote'
@@ -19,14 +21,20 @@ export default function StudioPage() {
       title="The Studio"
       image="rehearsal"
       description="Reserve a private room or book a team to help you record, film, design, and finish your project."
-      actions={<Link href="/pricing#booking-flow" className={styles.primaryButton}>Build your studio package</Link>}
+      actions={
+        <Link href="/pricing#booking-flow" className={`${styles.primaryButton} ${styles.iconLabel}`}>
+          <SlidersHorizontal aria-hidden="true" /> Build your studio package
+        </Link>
+      }
     >
       <section className={`${styles.container} ${styles.section}`} aria-labelledby="studio-services">
         <div className={styles.sectionHeading}><h2 id="studio-services">Book space or a session</h2></div>
         <div className={styles.infoGrid}>
           {studioOptions.map((tier) => (
             <article key={tier} className={styles.infoCard}>
-              <h3>{plans[tier].title}</h3>
+              <h3 className={styles.iconLabel}>
+                <StudioPlanIcon plan={tier} /> {plans[tier].title}
+              </h3>
               <p>{plans[tier].description}</p>
               <p className={styles.rate}>{ugx(plans[tier].hourly)} / hour</p>
               <Link href={bookingHref({ tier, hours: 1, extras: [] })} className={styles.textLink}>Customize this package</Link>
@@ -48,7 +56,9 @@ export default function StudioPage() {
       <section className={`${styles.container} ${styles.section} ${styles.copy}`} aria-labelledby="studio-equipment">
         <h2 id="studio-equipment">Inside the studio</h2>
         <ul className={styles.inlineList}>{equipment.map((item) => <li key={item}>{item}</li>)}</ul>
-        <Link href="/contact" className={styles.textLink}>Plan a visit</Link>
+        <Link href="/contact" className={`${styles.textLink} ${styles.iconLabel}`}>
+          <MapPin aria-hidden="true" /> Plan a visit
+        </Link>
       </section>
     </SitePage>
   )

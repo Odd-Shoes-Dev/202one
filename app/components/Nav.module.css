@@ -62,6 +62,7 @@
 .navLinks a[data-active='true'] { color: var(--site-orange); }
 
 .navCta, .mobileToggle {
+  justify-content: center;
   border: 1px solid var(--site-orange);
   color: var(--site-white);
   padding: .7rem 1rem;
@@ -76,7 +77,7 @@
   color: var(--site-black);
 }
 
-.mobileToggle { display: none; }
+.nav .mobileToggle { display: none; }
 
 @media (max-width: 74rem) {
   .nav {
@@ -84,8 +85,8 @@
     justify-content: space-between;
   }
 
-  .mobileToggle {
-    display: block;
+  .nav .mobileToggle {
+    display: inline-flex;
     cursor: pointer;
     background: transparent;
   }

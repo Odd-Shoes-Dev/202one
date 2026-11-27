@@ -1,3 +1,4 @@
+import { Clapperboard, Headphones, MicVocal, Music } from 'lucide-react'
 import type { Metadata } from 'next'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -30,7 +31,12 @@ const featuredGatherings = [
   },
 ]
 
-const otherGatherings = ['Poet Nights', 'Movie Nights', 'Pre-Concert Shows', 'Listening Sessions']
+const otherGatherings = [
+  { title: 'Poet Nights', Icon: MicVocal },
+  { title: 'Movie Nights', Icon: Clapperboard },
+  { title: 'Pre-Concert Shows', Icon: Music },
+  { title: 'Listening Sessions', Icon: Headphones },
+]
 const levels = [18, 34, 25, 54, 40, 77, 100, 61, 84, 47, 57, 32, 17]
 
 export default function CommunityPage() {
@@ -64,7 +70,9 @@ export default function CommunityPage() {
 
         <div className={styles.more}>
           <ul className={styles.gatherings} aria-label="More gatherings">
-            {otherGatherings.map((title) => <li key={title}>{title}</li>)}
+            {otherGatherings.map(({ title, Icon }) => (
+              <li key={title}><Icon aria-hidden="true" /> {title}</li>
+            ))}
           </ul>
           <Link href="/about" className={styles.aboutLink}>Learn about 202One</Link>
         </div>

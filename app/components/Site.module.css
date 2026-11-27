@@ -35,6 +35,21 @@
 
 .container { padding-inline: var(--site-gutter); }
 
+.iconLabel {
+  display: inline-flex;
+  align-items: center;
+  gap: .5em;
+}
+
+.iconLabel > svg {
+  flex: none;
+  inline-size: 1.1em;
+  block-size: 1.1em;
+  stroke-width: 1.8;
+}
+
+.workCard h3 > svg, .infoCard h3 > svg { color: var(--site-blue); }
+
 .hero {
   position: relative;
   isolation: isolate;

@@ -1,3 +1,4 @@
+import { MapPin } from 'lucide-react'
 import site from './Site.module.css'
 import styles from './StudioLocation.module.css'
 
@@ -13,12 +14,12 @@ const mapParams = new URLSearchParams({
 export default function StudioLocation({ compact = false }: { compact?: boolean }) {
   const directions = (
     <a
-      className={compact ? styles.directions : site.textLink}
+      className={`${compact ? styles.directions : site.textLink} ${site.iconLabel}`}
       href={googleMapsLink}
       target="_blank"
       rel="noreferrer"
     >
-      Open in Google Maps
+      <MapPin aria-hidden="true" /> Open in Google Maps
     </a>
   )
 

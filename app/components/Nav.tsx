@@ -1,9 +1,11 @@
 'use client'
 
+import { CalendarDays, Menu, X } from 'lucide-react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useEffect, useRef, useState } from 'react'
 import styles from './Nav.module.css'
+import site from './Site.module.css'
 
 const links = [
   { href: '/', label: 'Home' },
@@ -60,11 +62,12 @@ export default function Nav() {
         <button
           ref={menuButton}
           type="button"
-          className={styles.mobileToggle}
+          className={`${styles.mobileToggle} ${site.iconLabel}`}
           aria-expanded={menuOpen}
           aria-controls="main-navigation"
           onClick={() => setMenuOpen((open) => !open)}
         >
+          {menuOpen ? <X aria-hidden="true" /> : <Menu aria-hidden="true" />}
           {menuOpen ? 'Close' : 'Menu'}
         </button>
         <div id="main-navigation" className={styles.navLinks} data-open={menuOpen}>
@@ -79,8 +82,8 @@ export default function Nav() {
               {label}
             </Link>
           ))}
-          <Link className={styles.navCta} href="/book" aria-current={pathname === '/book' ? 'page' : undefined} onClick={() => setMenuOpen(false)}>
-            Book the Studio
+          <Link className={`${styles.navCta} ${site.iconLabel}`} href="/book" aria-current={pathname === '/book' ? 'page' : undefined} onClick={() => setMenuOpen(false)}>
+            <CalendarDays aria-hidden="true" /> Book the Studio
           </Link>
         </div>
       </nav>

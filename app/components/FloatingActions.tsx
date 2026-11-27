@@ -1,10 +1,12 @@
 'use client'
 
+import { CalendarCheck, MessageSquare } from 'lucide-react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useActionState, useRef, useState } from 'react'
 import { submitFeedback, type FeedbackState } from '@/app/actions/feedback'
 import styles from './FloatingActions.module.css'
+import site from './Site.module.css'
 
 const initialState: FeedbackState = { status: 'idle', message: '' }
 
@@ -49,13 +51,13 @@ export function FeedbackButton() {
   return (
     <>
       <button
-        className={styles.feedback}
+        className={`${styles.feedback} ${site.iconLabel}`}
         type="button"
         aria-haspopup="dialog"
         aria-controls="feedback-dialog"
         onClick={openFeedback}
       >
-        Feedback
+        <MessageSquare aria-hidden="true" /> Feedback
       </button>
       <dialog
         ref={dialog}
@@ -82,10 +84,7 @@ export default function FloatingActions() {
   return (
     <div className={styles.actions} role="group" aria-label="Booking shortcut">
       <Link className={styles.booking} href="/book#booking-flow" aria-label="Book the Studio">
-        <svg className={styles.icon} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-          <rect x="3" y="5" width="18" height="16" rx="2" />
-          <path d="M7 3v4m10-4v4M3 10h18m-12 5 2 2 4-4" />
-        </svg>
+        <CalendarCheck className={styles.icon} strokeWidth={1.8} aria-hidden="true" />
         <span className={styles.actionLabel} aria-hidden="true">Book the Studio</span>
       </Link>
     </div>
