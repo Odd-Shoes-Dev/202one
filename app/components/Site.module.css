@@ -102,8 +102,6 @@
 .heroLocation span { color: var(--site-orange); padding-inline: .2rem; }
 
 .hero h1 {
-  justify-self: center;
-  text-align: center;
   font-family: var(--serif);
   max-width: 16ch;
   font-size: clamp(2.75rem, 7.4vw, 6rem);
@@ -129,22 +127,11 @@
 
 @media (min-width: 60rem) {
   .hero {
-    align-items: center;
-    justify-items: stretch;
     min-height: clamp(26rem, 53svh, 38rem);
     padding-inline: var(--site-gutter);
-    text-align: start;
   }
 
   .heroHome { min-height: clamp(35rem, 70svh, 50rem); }
-  .heroContent { width: 100%; justify-items: start; }
-  .heroDescription { max-width: 38rem; text-wrap: pretty; }
-  .actions { justify-content: start; }
-
-  .hero::after, .heroHome::after {
-    background: linear-gradient(90deg, #080b16ef 0%, #080b16cf 27%, #080b1675 51%, #080b1629 76%, #080b161f 100%),
-      linear-gradient(0deg, #05060f75 0%, transparent 58%);
-  }
 }
 
 .primaryButton, .outlineButton, .lightButton, .blueButton {
