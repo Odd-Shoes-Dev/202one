@@ -4,11 +4,6 @@
   padding: clamp(3.5rem, 7vw, 6.5rem) var(--site-gutter);
 }
 
-.inner {
-  max-width: 80rem;
-  margin-inline: auto;
-}
-
 .heading {
   display: flex;
   align-items: center;
@@ -35,7 +30,7 @@
   flex-shrink: 0;
   align-items: center;
   gap: clamp(.2rem, .53vw, .45rem);
-  height: clamp(1.65rem, 6vw, 4.5rem);
+  height: clamp(1.65rem, 6vw, 5.25rem);
   padding-inline: .1rem;
   color: var(--site-orange);
 }
@@ -53,7 +48,7 @@
 .gallery {
   display: grid;
   grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
-  grid-template-rows: repeat(2, minmax(13rem, 20vw));
+  grid-template-rows: repeat(2, clamp(13rem, min(20vw, 40svh), 31rem));
   gap: clamp(.7rem, 1.6vw, 1.3rem);
   list-style: none;
 }
@@ -92,17 +87,17 @@
 }
 
 .caption {
-  padding: clamp(1rem, 2.35vw, 1.9rem);
+  padding: clamp(1rem, 2.35vw, 3rem);
 }
 
 .caption h3 {
-  font: 700 clamp(1.45rem, 3.1vw, 2.35rem)/1.07 var(--serif);
+  font: 700 clamp(1.45rem, 3.1vw, 3rem)/1.07 var(--serif);
   letter-spacing: -.035em;
   text-wrap: balance;
 }
 
 .frame:first-child h3 {
-  font-size: clamp(1.8rem, 4.2vw, 3.75rem);
+  font-size: clamp(1.8rem, 4.2vw, 4.25rem);
 }
 
 .caption p {
@@ -206,9 +201,16 @@
     }
 
     .frame {
+      view-timeline-name: --gathering-frame;
       animation: slide-in ease-out both;
       animation-timeline: view();
       animation-range: entry 0% cover 24%;
+    }
+
+    .frame img {
+      animation: frame-settle linear both;
+      animation-timeline: --gathering-frame;
+      animation-range: entry 0% cover 55%;
     }
   }
 }
@@ -226,6 +228,11 @@
 @keyframes slide-in {
   from { opacity: .6; translate: 0 .85rem; }
   to { opacity: 1; translate: 0; }
+}
+
+@keyframes frame-settle {
+  from { scale: 1.085; }
+  to { scale: 1; }
 }
 
 @keyframes level-shift {

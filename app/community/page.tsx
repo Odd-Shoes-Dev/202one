@@ -37,38 +37,36 @@ export default function CommunityPage() {
   return (
     <SitePage title="Community" image="community" description="A place for Mbarara’s artists, makers and storytellers to meet and learn together.">
       <section id="what-happens-here" className={styles.section} aria-labelledby="community-gatherings">
-        <div className={styles.inner}>
-          <header className={styles.heading}>
-            <div>
-              <h2 id="community-gatherings">What happens here</h2>
-              <p>Our gatherings bring together musicians, producers, designers, filmmakers, worship teams and other creatives.</p>
-            </div>
-            <div className={styles.waveform} aria-hidden="true">
-              {levels.map((level) => <span key={level} style={{ height: `${level}%` }} />)}
-            </div>
-          </header>
-
-          <figure>
-            <ul className={styles.gallery} aria-label="Featured gatherings">
-              {featuredGatherings.map(({ title, description, image, alt }) => (
-                <li className={styles.frame} key={title}>
-                  <Image src={image} alt={alt} fill unoptimized />
-                  <div className={styles.caption}>
-                    <h3>{title}</h3>
-                    <p>{description}</p>
-                  </div>
-                </li>
-              ))}
-            </ul>
-            <figcaption className={styles.imageCredit}>Illustrative imagery</figcaption>
-          </figure>
-
-          <div className={styles.more}>
-            <ul className={styles.gatherings} aria-label="More gatherings">
-              {otherGatherings.map((title) => <li key={title}>{title}</li>)}
-            </ul>
-            <Link href="/about" className={styles.aboutLink}>Learn about 202One</Link>
+        <header className={styles.heading}>
+          <div>
+            <h2 id="community-gatherings">What happens here</h2>
+            <p>Our gatherings bring together musicians, producers, designers, filmmakers, worship teams and other creatives.</p>
           </div>
+          <div className={styles.waveform} aria-hidden="true">
+            {levels.map((level) => <span key={level} style={{ height: `${level}%` }} />)}
+          </div>
+        </header>
+
+        <figure>
+          <ul className={styles.gallery} aria-label="Featured gatherings">
+            {featuredGatherings.map(({ title, description, image, alt }) => (
+              <li className={styles.frame} key={title}>
+                <Image src={image} alt={alt} fill unoptimized />
+                <div className={styles.caption}>
+                  <h3>{title}</h3>
+                  <p>{description}</p>
+                </div>
+              </li>
+            ))}
+          </ul>
+          <figcaption className={styles.imageCredit}>Illustrative imagery</figcaption>
+        </figure>
+
+        <div className={styles.more}>
+          <ul className={styles.gatherings} aria-label="More gatherings">
+            {otherGatherings.map((title) => <li key={title}>{title}</li>)}
+          </ul>
+          <Link href="/about" className={styles.aboutLink}>Learn about 202One</Link>
         </div>
       </section>
     </SitePage>
